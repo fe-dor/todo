@@ -1,0 +1,27 @@
+.container {
+    margin: 0 31px 28px 24px;
+}
+
+.table {
+    display: grid;
+    grid-template-columns:  1fr  1fr;
+    grid-template-rows:  1fr  1fr;
+    column-gap: 19px;
+    row-gap: 17px;
+}
+
+.block1 {
+    background-color: #B4C4FF;
+}
+
+.block2 {
+    background-color: #CFF3E9;
+}
+
+.block3 {
+    background-color: #9747FF;
+}
+
+.block4 {
+    background-color: #EDBE7D;
+}

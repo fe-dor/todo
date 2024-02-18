@@ -1,0 +1,19 @@
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 500;
+    src: url("Inter/Inter-Medium.ttf") format("opentype");
+}
+
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 300;
+    src: url("Inter/Inter-Light.ttf") format("opentype");
+}
+
+:root {
+    --font-family: "Inter", sans-serif;
+    --second-family: "Roboto", sans-serif;
+    --third-family: "Outfit", sans-serif;
+}
