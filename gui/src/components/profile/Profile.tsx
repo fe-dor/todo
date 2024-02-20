@@ -1,4 +1,4 @@
-import styles from "./Profile.module.css";
+import styles from "./Profile.module.scss";
 import Navbar from "../navbar/Navbar.tsx"
 import Groups from "../groups/Groups.tsx"
 export default function Profile(){

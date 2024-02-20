@@ -12,6 +12,13 @@
     src: url("Inter/Inter-Light.ttf") format("opentype");
 }
 
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 700;
+    src: url("Inter/Inter-Bold.ttf") format("opentype");
+}
+
 :root {
     --font-family: "Inter", sans-serif;
     --second-family: "Roboto", sans-serif;
