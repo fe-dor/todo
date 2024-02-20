@@ -1,3 +1,5 @@
+@import "src/utils.scss";
+
 .container {
     margin: 0 31px 28px 24px;
 }
@@ -27,13 +29,11 @@
 }
 
 /*.block:hover {
-    opacity: 0.9;
-    border-width: 0.5px;
+
 }
 
 .block:active {
-    opacity: 1;
-    border-width: 0;
+
 }*/
 
 .icon {
@@ -55,4 +55,22 @@
 
     margin-top: 5px;
     width: 100%;
+}
+
+@include sm {
+    .table {
+        grid-template-columns: 1fr  1fr  1fr;
+    }
+}
+
+@include md {
+    .table {
+        grid-template-columns: 1fr  1fr  1fr  1fr;
+    }
+}
+
+@include lg {
+    .table {
+        grid-template-columns: 1fr  1fr  1fr  1fr  1fr;
+    }
 }
