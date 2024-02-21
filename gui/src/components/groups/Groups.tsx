@@ -101,8 +101,8 @@ function PlusButton() {
         }}>
             <div className={styles.plus}>
                 <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="1" height="21" transform="translate(10)" fill="#9747ff"/>
-                    <rect width="1" height="21" transform="matrix(0 -1 1 0 0 11)" fill="#9747ff"/>
+                    <rect width="0.5" height="21" transform="translate(10)" fill="#9747ff"/>
+                    <rect width="0.5" height="21" transform="matrix(0 -1 1 0 0 11)" fill="#9747ff"/>
                 </svg>
             </div>
         </button>
