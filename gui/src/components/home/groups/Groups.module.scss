@@ -1,12 +1,13 @@
-@import "src/utils.scss";
+@import "../../../utils";
 
 .container {
-    margin: 0 31px 28px 24px;
+    padding: 0 31px 28px 24px;
 }
 
 .table {
     display: grid;
-    grid-template-columns:  1fr  1fr;
+    //grid-template-columns:  1fr  1fr;
+    grid-template-columns: repeat(2, minmax(143px,  1fr));
     grid-auto-rows:  1fr;
     column-gap: 19px;
     row-gap: 17px;
@@ -63,21 +64,29 @@
     height: 100%;
 }
 
+.name {
+    margin-right: 5px;
+    overflow: hidden; /* Скрывает текст, выходящий за границы элемента */
+    white-space: nowrap; /* Предотвращает перенос текста на новую строку */
+    text-overflow: ellipsis; /* Добавляет многоточие в конце текста, если он не влазит */
+    text-align: left;
+}
+
 @include sm {
     .table {
-        grid-template-columns: 1fr  1fr  1fr;
+        grid-template-columns: repeat(3, minmax(143px,  1fr));
     }
 }
 
 @include md {
     .table {
-        grid-template-columns: 1fr  1fr  1fr  1fr;
+        grid-template-columns: repeat(4, minmax(143px,  1fr));
     }
 }
 
 @include lg {
     .table {
-        grid-template-columns: 1fr  1fr  1fr  1fr  1fr;
+        grid-template-columns: repeat(5, minmax(143px,  1fr));
     }
 
     .block:hover {

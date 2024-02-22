@@ -1,4 +1,5 @@
 import styles from './Navbar.module.scss';
+import {Link} from "react-router-dom";
 export default function Navbar(){
 
 
@@ -8,7 +9,9 @@ export default function Navbar(){
           <h1 className={styles.text1}>Hello Varun,</h1>
           <h2 className={styles.text2}>You have work today</h2>
       </div>
-      <div className={styles.profilePic}></div>
+      <Link to="/profile">
+        <div className={styles.profilePic}></div>
+      </Link>
       <IconLeaf />
     </div>
   )

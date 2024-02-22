@@ -1,15 +1,21 @@
-/*import { useState } from 'react'*/
 import './App.scss'
-import Profile from "./components/profile/Profile.tsx"
+import Home from "./components/home/Home.tsx"
+import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from "react-router-dom";
+import Start from "./components/start/Start.tsx";
 
-function App() {
-  /*const [count, setCount] = useState(0)*/
+
+export function Fallback() {
+    return <p>Performing initial data load</p>;
+}
+export default function App() {
 
   return (
-    <>
-      <Profile />
+     <>
+      <RouterProvider router={router} fallbackElement={<Fallback />
+      /*<Home />*/
     </>
   )
 }
 
-export default App
+
+

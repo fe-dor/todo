@@ -4,10 +4,7 @@ export default function Groups() {
     const groups: Group[] = [
         {color: ColorEnum.Blue, name: 'Project', count: 5, icon: IconEnum.Package.valueOf()},
         {color: ColorEnum.LightGreen, name: 'Work', count: 3, icon: IconEnum.Car.valueOf()},
-        {color: ColorEnum.Purple, name: 'Daily Tasks', count: 2, icon: IconEnum.Dumbbell.valueOf()},
-        {color: ColorEnum.Blue, name: 'Project', count: 5, icon: IconEnum.Package.valueOf()},
-        {color: ColorEnum.LightGreen, name: 'Work', count: 3, icon: IconEnum.Car.valueOf()},
-        {color: ColorEnum.Beige, name: 'Daily Tasks', count: 199, icon: IconEnum.Car.valueOf()}
+        {color: ColorEnum.Purple, name: '@WWWWWWW@qq', count: 2, icon: IconEnum.Dumbbell.valueOf()},
     ]
 
     return (
@@ -50,6 +47,8 @@ type Group = {
 
 /*TODO: анимация наведения и нажатия*/
 function GroupElem(props: Group) {
+
+    const serializedGroup = JSON.stringify(props);
 
     return (
       <button className={styles.block} style={{backgroundColor: props.color}}>

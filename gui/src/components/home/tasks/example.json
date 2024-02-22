@@ -1,0 +1,25 @@
+{
+  "id": 1,
+  "name": "alex",
+  "mail": "aleeex@gmail.com",
+  "notes": [
+    {
+      "name": "private",
+      "color": "#B4C4FF",
+      "icon": 1,
+      "notes" : [
+        {"todo" : "do homework", "day" : "22.03.2024", "time" : "7:00"},
+        {"todo" : "play game", "day" : "22.03.2024", "time" : "21:00"}
+      ]
+    },
+    {
+      "name": "work",
+      "color": "#c191ff",
+      "icon": 2,
+      "notes" : [
+        {"todo" : "do my job", "day" : "22.03.2024", "time" : "16:00"},
+        {"todo" : "play game", "day" : "22.03.2024", "time" : "18:00"}
+      ]
+    }
+  ]
+}
