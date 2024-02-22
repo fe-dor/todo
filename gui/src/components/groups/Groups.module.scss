@@ -28,13 +28,11 @@
     border-width: 0;
 }
 
-/*.block:hover {
-
+.blockPlus {
+    @extend .block;
+    background-color: white;
+    border: 0.5px solid #9747ff;
 }
-
-.block:active {
-
-}*/
 
 .icon {
     display: flex;
@@ -80,5 +78,13 @@
 @include lg {
     .table {
         grid-template-columns: 1fr  1fr  1fr  1fr  1fr;
+    }
+
+    .block:hover {
+        filter: brightness(93%);
+    }
+
+    .block:active {
+        filter: brightness(100%);
     }
 }

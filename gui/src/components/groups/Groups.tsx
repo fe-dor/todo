@@ -1,11 +1,13 @@
 import styles from "./Groups.module.scss"
 
 export default function Groups() {
-    const groups: Group[] = [{color: ColorEnum.Blue, name: 'Project', count: 5, icon: IconEnum.Package.valueOf()},
+    const groups: Group[] = [
+        {color: ColorEnum.Blue, name: 'Project', count: 5, icon: IconEnum.Package.valueOf()},
         {color: ColorEnum.LightGreen, name: 'Work', count: 3, icon: IconEnum.Car.valueOf()},
         {color: ColorEnum.Purple, name: 'Daily Tasks', count: 2, icon: IconEnum.Dumbbell.valueOf()},
         {color: ColorEnum.Blue, name: 'Project', count: 5, icon: IconEnum.Package.valueOf()},
-        {color: ColorEnum.LightGreen, name: 'Work', count: 3, icon: IconEnum.Car.valueOf()}
+        {color: ColorEnum.LightGreen, name: 'Work', count: 3, icon: IconEnum.Car.valueOf()},
+        {color: ColorEnum.Beige, name: 'Daily Tasks', count: 199, icon: IconEnum.Car.valueOf()}
     ]
 
     return (
@@ -44,8 +46,12 @@ type Group = {
   icon: number;
 }
 
+
+
+/*TODO: анимация наведения и нажатия*/
 function GroupElem(props: Group) {
-  return (
+
+    return (
       <button className={styles.block} style={{backgroundColor: props.color}}>
         <div className={styles.icon}><Icon icon={props.icon} color={props.color}/></div>
         <div className={styles.info}>
@@ -95,10 +101,7 @@ function Icon(props: {icon: number, color: string}) {
 
 function PlusButton() {
     return(
-        <button className={styles.block} style={{
-            backgroundColor: "white",
-            border: '0.5px solid #9747ff'
-        }}>
+        <button className={styles.blockPlus}>
             <div className={styles.plus}>
                 <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect width="0.5" height="21" transform="translate(10)" fill="#9747ff"/>
