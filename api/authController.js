@@ -60,13 +60,13 @@ class AuthController {
             const userRole = new Role()
             const adminRole = new Role({value: "ADMIN"})
             const userAdmin = new User({
-                email: "parashchenko.fedor@gmail.com",
-                username: "fedor19",
-                password: "sasd",
-                roles: [adminRole.value]
+                email: "tvoya.mama@gmail.com",
+                username: "tvoya_mama",
+                password: "fat123456",
+                roles: [userRole.value]
             });
-            await userRole.save()
-            await adminRole.save()
+            /*await userRole.save()
+            await adminRole.save()*/
             await userAdmin.save()
             res.json("server work")
         } catch (e) {
