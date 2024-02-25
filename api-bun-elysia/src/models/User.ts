@@ -7,5 +7,4 @@ const User = new Schema({
     roles: [{type: String, ref: 'Role'}]
 })
 
-module.exports = model('User', User)
-export default User
+export default model('User', User)

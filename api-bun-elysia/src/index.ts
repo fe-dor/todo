@@ -1,6 +1,7 @@
 import { Elysia } from "elysia";
 
 import mongoose from 'mongoose';
+import authRouter from "./authRouter";
 import.meta.require
 
 const PORT: string = typeof Bun.env.PORT === 'string' ? Bun.env.PORT : '';
@@ -8,6 +9,7 @@ const mongoUri: string = typeof Bun.env.MONGO_URI === 'string' ? Bun.env.MONGO_U
 
 
 const app = new Elysia()
+app.group("/auth", authRouter)
 
 const start = async () => {
     try {
