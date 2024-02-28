@@ -1,4 +1,4 @@
-import { Elysia } from "elysia";
+import {Elysia, error} from "elysia";
 
 import mongoose from 'mongoose';
 import authRouter from "./authRouter";
@@ -9,7 +9,16 @@ const mongoUri: string = typeof Bun.env.MONGO_URI === 'string' ? Bun.env.MONGO_U
 
 
 const app = new Elysia()
-app.group("/auth", authRouter)
+
+app.use(authRouter)
+
+app.onError(({ code, error }) => {
+    if (code === 'VALIDATION') {
+        return new Response(error.message, {
+            status:
+        })
+    }
+})
 
 const start = async () => {
     try {

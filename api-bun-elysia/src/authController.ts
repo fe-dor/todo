@@ -1,27 +1,29 @@
 import User from './models/User';
 import Role from './models/Role';
-import bcrypt from 'bcrypt-ts';
+import { hashSync, compareSync } from 'bcrypt-ts';
 import { jwt } from '@elysiajs/jwt';
 import {Types} from "mongoose";
 require('dotenv').config();
 const secret = process.env.JWT_SECRET;
-function generateAccessToken(id:  Types.ObjectId, roles: string[]) {
+/*function generateAccessToken(id:  Types.ObjectId, roles: string[]) {
     const payload = {
         id,
         roles
     }
     return jwt.sign(payload, secret, {expiresIn: '1h'});
-}
+}*/
 
 class AuthController {
-    async registration(req: { body: any; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; errors?: any; }): void; new(): any; }; }; }) {
+    async registration(body: {username: string, password: string, email: string}) {
         try {
-            const {username, password, email} = req.body;
+            const {username, password, email} = body;
             const candidate = await User.findOne({email})
             if (candidate) {
-                return res.status(400).json({message: 'An account is already linked to this email'})
+                return new Response('An account is already linked to this email', {
+                    status: 400
+                })
             }
-            const hashPassword = bcrypt.hashSync(password, 7);
+            const hashPassword = hashSync(password, 7);
             const userRole  = await Role.findOne({value: "USER"})
             const user = new User({
                 email,
@@ -30,14 +32,18 @@ class AuthController {
                 roles: [userRole !== null && typeof userRole.value === 'string' ? userRole.value : 'USER']
             })
             await user.save()
-            return res.status(200).json({message: "User registered successfully"})
+            return new Response("User registered successfully", {
+                status: 200
+            })
         } catch (e) {
             console.log(e);
-            res.status(400).json({message: 'Registration error'});
+            return new Response('Registration error', {
+                status: 400
+            })
         }
     }
 
-    async login(req: { body: { password: any; email: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; }): void; new(): any; }; }; json: (arg0: any) => any; }) {
+   /* async login(req: { body: { password: any; email: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; }): void; new(): any; }; }; json: (arg0: any) => any; }) {
         try {
             const {password, email} = req.body;
             const user = await User.findOne({email})
@@ -54,7 +60,7 @@ class AuthController {
             console.log(e);
             res.status(400).json({message: 'Login error'});
         }
-    }
+    }*/
 
     async getData(req: any, res: { json: (arg0: string) => void; }) {
         try {
