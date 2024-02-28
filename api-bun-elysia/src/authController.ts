@@ -1,10 +1,15 @@
 import User from './models/User';
 import Role from './models/Role';
 import { hashSync, compareSync } from 'bcrypt-ts';
+import { Resend } from 'resend';
+import * as crypto from "crypto";
+import.meta.require
 import { jwt } from '@elysiajs/jwt';
 import {Types} from "mongoose";
-require('dotenv').config();
-const secret = process.env.JWT_SECRET;
+
+const secret = Bun.env.JWT_SECRET;
+const resend = new Resend(Bun.env.RESEND_API_KEY);
+
 /*function generateAccessToken(id:  Types.ObjectId, roles: string[]) {
     const payload = {
         id,
@@ -12,6 +17,15 @@ const secret = process.env.JWT_SECRET;
     }
     return jwt.sign(payload, secret, {expiresIn: '1h'});
 }*/
+
+
+// Функция для генерации случайного кода
+function generateRandomCode(length: number) {
+    return crypto.randomBytes(length).toString('hex').substring(0, length);
+}
+
+
+
 
 class AuthController {
     async registration(body: {username: string, password: string, email: string}) {
@@ -23,6 +37,13 @@ class AuthController {
                     status: 400
                 })
             }
+            const code = generateRandomCode(6);
+            await resend.emails.send({
+                from: 'onboarding@resend.dev',
+                to: `lixajo9839@mcuma.com`, //приходит не на все почты
+                subject: `Welcome ${username}!`,
+                html: `<p style="background-color: black; color:white">Your code: <strong>${code}</strong></p>`
+            });
             const hashPassword = hashSync(password, 7);
             const userRole  = await Role.findOne({value: "USER"})
             const user = new User({

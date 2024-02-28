@@ -1,5 +1,5 @@
-import Router, {error, t} from 'elysia';
-import Joi from 'joi';
+import Router, {t} from 'elysia';
+
 const router = new Router()
 import controller from './authController';
 
@@ -7,25 +7,21 @@ router.post(
     '/registration',
     ({body}) => {
         return controller.registration(body)
-
     }, {
         body : t.Object({
             username: t.String({
                 minLength: 3,
                 maxLength: 12,
-                error: "Username issue",
-                status: 441
+                error: "Username issue"
             }),
             email: t.String({
                 format: 'email',
-                error: "Email issue",
-                status: 442
+                error: "Email issue"
             }),
             password: t.String({
                 minLength: 5,
                 maxLength: 15,
-                error: "Password issue",
-                status: 443 //недоделано!! коды не работают
+                error: "Password issue"
             })
         })
     }
