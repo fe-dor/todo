@@ -3,10 +3,13 @@ import UserTemp from "./models/UserTemp";
 import User from './models/User';
 import Role from './models/Role';
 import { hashSync, compareSync } from 'bcrypt-ts';
+import { jwt } from "@elysiajs/jwt";
+import { cookie } from '@elysiajs/cookie';
 import * as crypto from "crypto";
 import.meta.require
-import { jwt } from '@elysiajs/jwt';
+
 import {Types} from "mongoose";
+import {Elysia} from "elysia";
 
 const gmail_user = Bun.env.GMAIL_USER
 const secret = Bun.env.JWT_SECRET;
@@ -140,26 +143,35 @@ class AuthController {
         }
     }
 
-   /* async login(req: { body: { password: any; email: any; }; }, res: { status: (arg0: number) => { (): any; new(): any; json: { (arg0: { message: string; }): void; new(): any; }; }; json: (arg0: any) => any; }) {
+    async login(body: {password: string, email: string}) {
         try {
-            const {password, email} = req.body;
+            const {password, email} = body;
             const user = await User.findOne({email})
             if(!user){
-                return res.status(400).json({message: 'User with this email not found'})
+                return new Response('User with this email not found', {
+                    status: 400
+                })
             }
-            const isValid = bcrypt.compareSync(password, user.password)
+            const isValid = compareSync(password, user.password)
             if (!isValid) {
-                return res.status(400).json({message: 'Invalid password'})
+                return new Response('Invalid password', {
+                    status: 400
+                })
             }
-            const token = generateAccessToken(user._id, user.roles)
-            return res.json(token)
+
+
+
+            /*const token = generateAccessToken(user._id, user.roles)
+            return res.json(token)*/
         } catch (e) {
             console.log(e);
-            res.status(400).json({message: 'Login error'});
+                return new Response('Login error', {
+                    status: 400
+                })
         }
-    }*/
+    }
 
-    async getData(req: any, res: { json: (arg0: string) => void; }) {
+    /*async getData(req: any, res: { json: (arg0: string) => void; }) {
         try {
             const userRole = new Role()
             const adminRole = new Role({value: "ADMIN"})
@@ -169,14 +181,14 @@ class AuthController {
                 password: "fat123456",
                 roles: [userRole.value]
             });
-            /*await userRole.save()
-            await adminRole.save()*/
+            /!*await userRole.save()
+            await adminRole.save()*!/
             await userAdmin.save()
             res.json("server work")
         } catch (e) {
 
         }
-    }
+    }*/
 }
 
 export default new AuthController()

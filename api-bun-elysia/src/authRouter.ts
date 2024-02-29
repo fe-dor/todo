@@ -62,8 +62,22 @@ router.post('/confirmation',
                 error: "Code is wrong"
             })
         })
+    }) //TODO: Добавить статус коды как в registration
+router.get('/login', ({body, jwt, cookie, setCookie}) => {
+    return controller.login(body)
+}, {
+    body : t.Object({
+        email: t.String({
+            format: 'email',
+            error: "471"
+        }),
+        password: t.String({
+            minLength: 5,
+            maxLength: 15,
+            error: "472"
+        })
     })
-/*router.post('/login', controller.login)
-router.get('/data', controller.getData)*/
+})
+/*router.get('/data', controller.getData)*/
 
 export default router
