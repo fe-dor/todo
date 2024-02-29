@@ -1,14 +1,13 @@
 import User from './models/User';
 import Role from './models/Role';
 import { hashSync, compareSync } from 'bcrypt-ts';
-import { Resend } from 'resend';
 import * as crypto from "crypto";
 import.meta.require
 import { jwt } from '@elysiajs/jwt';
 import {Types} from "mongoose";
+import transporter from "./mailTransporter";
 
 const secret = Bun.env.JWT_SECRET;
-const resend = new Resend(Bun.env.RESEND_API_KEY);
 
 /*function generateAccessToken(id:  Types.ObjectId, roles: string[]) {
     const payload = {
@@ -30,21 +29,39 @@ function generateRandomCode(length: number) {
 class AuthController {
     async registration(body: {username: string, password: string, email: string}) {
         try {
-            const {username, password, email} = body;
+            /*const {username, password, email} = body;
             const candidate = await User.findOne({email})
             if (candidate) {
                 return new Response('An account is already linked to this email', {
                     status: 400
                 })
             }
-            const code = generateRandomCode(6);
-            await resend.emails.send({
-                from: 'onboarding@resend.dev',
-                to: `lixajo9839@mcuma.com`, //приходит не на все почты
-                subject: `Welcome ${username}!`,
-                html: `<p style="background-color: black; color:white">Your code: <strong>${code}</strong></p>`
+            const code = generateRandomCode(6);*/
+            const username = 'qwerty'
+            const code = '123456'
+
+            // Настройте сообщение
+            const mailOptions = {
+                from: 'parashchenko.fedor@gmail.com',
+                to: 'parashchenko.fedor@icloud.com',
+                subject: `Hello, ${username}`,
+                //text: 'This is a test email sent using Nodemailer and Bun.',
+                html: '<div style="background-color: black; color: white; align-content: center">' +
+                    '<h1>Welcome to my ToDo app!</h1>' +
+                    `<h2>Your activation code: ${code}</h2>` +
+                    '</div>'
+            };
+
+            // Отправьте электронное письмо
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log(error);
+                } else {
+                    console.log('Email sent: ' + info.response);
+                }
             });
-            const hashPassword = hashSync(password, 7);
+
+            /*const hashPassword = hashSync(password, 7);
             const userRole  = await Role.findOne({value: "USER"})
             const user = new User({
                 email,
@@ -55,7 +72,7 @@ class AuthController {
             await user.save()
             return new Response("User registered successfully", {
                 status: 200
-            })
+            })*/
         } catch (e) {
             console.log(e);
             return new Response('Registration error', {
