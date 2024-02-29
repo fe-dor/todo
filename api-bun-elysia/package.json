@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@elysiajs/jwt": "^0.8.0",
+    "@elysiajs/swagger": "^0.8.5",
     "@types/nodemailer": "^6.4.14",
     "bcrypt-ts": "^5.0.2",
     "crypto": "^1.0.1",
@@ -15,6 +16,7 @@
     "joi": "^17.12.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.2.0",
+    "mongoose-ttl": "^0.0.3",
     "nodemailer": "^6.9.11",
     "resend": "^3.2.0"
   },

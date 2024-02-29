@@ -1,5 +1,5 @@
 import {Elysia} from "elysia";
-
+import { swagger } from '@elysiajs/swagger'
 import mongoose from 'mongoose';
 import authRouter from "./authRouter";
 import.meta.require
@@ -11,13 +11,16 @@ const mongoUri: string = typeof Bun.env.MONGO_URI === 'string' ? Bun.env.MONGO_U
 const app = new Elysia()
 
 app.use(authRouter)
-app.onError(({ code, error }) => {
+app.use(swagger({
+    path: '/swagger'
+}))
+/*app.onError(({ code, error }) => {
     if (code === 'VALIDATION') {
         return new Response(error.message, {
             status: 400
         })
     }
-})
+})*/
 
 try {
     await mongoose.connect(mongoUri)
