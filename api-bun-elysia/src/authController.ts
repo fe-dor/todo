@@ -148,21 +148,17 @@ class AuthController {
             const {password, email} = body;
             const user = await User.findOne({email})
             if(!user){
-                return new Response('User with this email not found', {
+                return  new Response('User with this email not found', {
                     status: 400
                 })
             }
             const isValid = compareSync(password, user.password)
             if (!isValid) {
-                return new Response('Invalid password', {
+                return  new Response('Invalid password', {
                     status: 400
                 })
             }
-
-
-
-            /*const token = generateAccessToken(user._id, user.roles)
-            return res.json(token)*/
+            return user;
         } catch (e) {
             console.log(e);
                 return new Response('Login error', {
