@@ -1,7 +1,9 @@
 import Router, {t} from 'elysia';
 
 const router = new Router()
-import controller from './authController';
+import controllerAuth from './authController';
+import controllerProfile from './profileController';
+
 import {jwt} from "@elysiajs/jwt";
 import {cookie} from "@elysiajs/cookie";
 import user from "./models/User";
@@ -12,7 +14,7 @@ const secretJwt: string = typeof Bun.env.JWT_CODE === 'string' ? Bun.env.JWT_COD
 router.post(
     '/registration',
     ({body}) => {
-        return controller.registration(body)
+        return controllerAuth.registration(body)
     }, {
         body : t.Object({
             username: t.String({
@@ -34,7 +36,7 @@ router.post(
 )
 router.post('/confirmation',
     ({body}) => {
-        return controller.confirmation(body)
+        return controllerAuth.confirmation(body)
     }, {
         body : t.Object({
             email: t.String({
@@ -57,7 +59,7 @@ router.use(
     })
 ).use(cookie())
 .post('/login',  async ({body, jwt2, cookie, setCookie}) => {
-    const answer = await controller.login(body)
+    const answer = await controllerAuth.login(body)
     if (answer instanceof Response){
         return answer
     }
@@ -84,16 +86,18 @@ router.use(
 }).get('/profile', async ({ jwt2, set, cookie: { auth } }) => {
     const profile = await jwt2.verify(auth);
 
-    console.log(profile)
+    //console.log(profile)
 
     if (!profile) {
         set.status = 401;
         return 'Unauthorized';
     }
 
-    return `Hello ${profile.id}`;
+    const {id} = profile
+
+    return controllerProfile.profile(id);
 })
 
-/*router.get('/data', controller.getData)*/
+/*router.get('/data', controllerAuth.getData)*/
 
 export default router

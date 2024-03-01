@@ -1,10 +1,12 @@
 import {Elysia} from "elysia";
 import { swagger } from '@elysiajs/swagger'
 import mongoose from 'mongoose';
-import authRouter from "./authRouter";
+import authRouter from "./router";
+import { cors } from '@elysiajs/cors'
+
 import {jwt} from "@elysiajs/jwt";
 import { cookie } from '@elysiajs/cookie';
-import router from "./authRouter";
+import router from "./router";
 import.meta.require
 
 const PORT: string = typeof Bun.env.PORT === 'string' ? Bun.env.PORT : '';
@@ -18,6 +20,7 @@ app.use(authRouter)
 app.use(swagger({
     path: '/swagger'
 }))
+app.use(cors())
 
 app.onError(({ code, error }) => {
     if (code === 'VALIDATION') {

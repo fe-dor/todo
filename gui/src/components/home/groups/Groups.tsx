@@ -48,7 +48,7 @@ type Group = {
 /*TODO: анимация наведения и нажатия*/
 function GroupElem(props: Group) {
 
-    const serializedGroup = JSON.stringify(props);
+    //const serializedGroup = JSON.stringify(props);
 
     return (
       <button className={styles.block} style={{backgroundColor: props.color}}>

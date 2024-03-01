@@ -161,9 +161,9 @@ class AuthController {
             return user;
         } catch (e) {
             console.log(e);
-                return new Response('Login error', {
-                    status: 400
-                })
+            return new Response('Login error', {
+                status: 400
+            })
         }
     }
 

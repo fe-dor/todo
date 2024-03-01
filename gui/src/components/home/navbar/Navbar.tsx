@@ -1,12 +1,16 @@
 import styles from './Navbar.module.scss';
 import {Link} from "react-router-dom";
-export default function Navbar(){
+import {useContext} from "react";
+import { HomeContext } from './../HomeContext';
 
+export default function Navbar( ){
+
+  const username: string = useContext(HomeContext);
 
   return (
     <div className={styles.container}>
       <div className={styles.helloContainer}>
-          <h1 className={styles.text1}>Hello Varun,</h1>
+          <h1 className={styles.text1}>Hello {username},</h1>
           <h2 className={styles.text2}>You have work today</h2>
       </div>
       <Link to="/profile">
