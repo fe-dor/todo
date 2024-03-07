@@ -1,6 +1,13 @@
 @font-face {
     font-family: "Inter";
     font-style: normal;
+    font-weight: 300;
+    src: url("Inter/Inter-Light.ttf") format("opentype");
+}
+
+@font-face {
+    font-family: "Inter";
+    font-style: normal;
     font-weight: 500;
     src: url("Inter/Inter-Medium.ttf") format("opentype");
 }
@@ -8,8 +15,8 @@
 @font-face {
     font-family: "Inter";
     font-style: normal;
-    font-weight: 300;
-    src: url("Inter/Inter-Light.ttf") format("opentype");
+    font-weight: 600;
+    src: url("Inter/Inter-SemiBold.ttf") format("opentype");
 }
 
 @font-face {

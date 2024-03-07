@@ -6,6 +6,7 @@ import controllerProfile from './profileController';
 
 import {jwt} from "@elysiajs/jwt";
 import {cookie} from "@elysiajs/cookie";
+import { bearer } from '@elysiajs/bearer'
 import user from "./models/User";
 const secretJwt: string = typeof Bun.env.JWT_CODE === 'string' ? Bun.env.JWT_CODE : '';
 
@@ -58,7 +59,7 @@ router.use(
         secret: secretJwt,
     })
 ).use(cookie())
-.post('/login',  async ({body, jwt2, cookie, setCookie}) => {
+.post('/login',  async ({body, jwt2, cookie, setCookie, set}) => {
     const answer = await controllerAuth.login(body)
     if (answer instanceof Response){
         return answer
@@ -66,11 +67,12 @@ router.use(
     const token = await jwt2.sign({"id": answer._id.toString()})
     console.log(secretJwt)
     console.log(token)
-    setCookie('auth', token, {
-        httpOnly: true,
+
+    /*setCookie('auth', token, { //
+        httpOnly: false,
         maxAge: 7 * 86400
-    });
-    return `Sign as ${body.email}!`
+    });*/
+    return {"token" : token}
 }, {
     body : t.Object({
         email: t.String({
@@ -83,20 +85,31 @@ router.use(
             error: "472",
         })
     })
-}).get('/profile', async ({ jwt2, set, cookie: { auth } }) => {
-    const profile = await jwt2.verify(auth);
+}).use(bearer())
+    .get('/profile', async ({ bearer, jwt2, set }) => {
+        const profile = await jwt2.verify(bearer)
 
-    //console.log(profile)
+        if (!profile) {
+            set.status = 401;
+            return 'Unauthorized';
+        }
 
-    if (!profile) {
-        set.status = 401;
-        return 'Unauthorized';
+        const {id} = profile
+
+        return controllerProfile.profile(id);
+    }, {
+        beforeHandle({ bearer, set }) {
+            if (!bearer) {
+                set.status = 400
+                set.headers[
+                    'WWW-Authenticate'
+                    ] = `Bearer realm='sign', error="invalid_request"`
+
+                return 'Unauthorized'
+            }
+        }
     }
-
-    const {id} = profile
-
-    return controllerProfile.profile(id);
-})
+)
 
 /*router.get('/data', controllerAuth.getData)*/
 

@@ -3,6 +3,7 @@ import { swagger } from '@elysiajs/swagger'
 import mongoose from 'mongoose';
 import authRouter from "./router";
 import { cors } from '@elysiajs/cors'
+import { bearer } from '@elysiajs/bearer'
 
 import {jwt} from "@elysiajs/jwt";
 import { cookie } from '@elysiajs/cookie';
@@ -20,7 +21,32 @@ app.use(authRouter)
 app.use(swagger({
     path: '/swagger'
 }))
-app.use(cors())
+
+/*app.onAfterHandle(({ request, set }) => {
+    // Only process CORS requests
+    if (request.method !== "OPTIONS") return;
+
+    const allowHeader = set.headers["Access-Control-Allow-Headers"];
+    if (allowHeader === "*") {
+        set.headers["Access-Control-Allow-Headers"] =
+            request.headers.get("Access-Control-Request-Headers") ?? "";
+    }
+}).use(cors())*/
+
+//added to pass cors...
+app.onAfterHandle(({ request, set }) => {
+    // Only process CORS requests
+    if (request.method !== "OPTIONS") return;
+
+    const allowHeader = set.headers["Access-Control-Allow-Headers"];
+    if (allowHeader === "*") {
+        set.headers["Access-Control-Allow-Headers"] =
+            request.headers.get("Access-Control-Request-Headers") ?? "";
+    }
+})
+.use(cors())
+
+app.use(bearer())
 
 app.onError(({ code, error }) => {
     if (code === 'VALIDATION') {

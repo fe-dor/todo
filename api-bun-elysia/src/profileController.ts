@@ -7,7 +7,9 @@ class ProfileController {
         try {
             const user = await User.findById(id);
             if (!user) {
-                return "No user found with this id"
+                return new Response("No user found with this id", {
+                    status: 400
+                })
             }
             return {
                 "email" : user.email,

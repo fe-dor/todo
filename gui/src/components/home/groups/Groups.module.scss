@@ -2,6 +2,9 @@
 
 .container {
     padding: 0 31px 28px 24px;
+    box-sizing: border-box;
+    margin: auto;
+    max-width: 1200px;
 }
 
 .table {

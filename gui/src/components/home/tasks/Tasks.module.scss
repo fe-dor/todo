@@ -1,5 +1,12 @@
 @import "../../../utils";
 
+.container {
+  margin: auto;
+  display: flex;
+  max-width: 1200px;
+  box-sizing: border-box;
+}
+
 .head {
   font-family: var(--font-family);
   font-weight: 500;
@@ -8,4 +15,5 @@
   padding-left: 29px;
   padding-bottom: 24px;
   margin: 0;
+  width: 100%;
 }

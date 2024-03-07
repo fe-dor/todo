@@ -3,12 +3,15 @@
 .container {
     position: relative;
     display: flex;
+    margin: auto;
+    max-width: 1200px;
     padding: 25px 25px 29px 24px;
+    box-sizing: border-box;
 }
 
 .helloContainer {
     margin: auto auto auto 0;
-    width: 88px;
+    //width: 88px;
     font-family: var(--font-family);
 }
 

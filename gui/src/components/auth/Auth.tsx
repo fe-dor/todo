@@ -30,7 +30,7 @@ export default function Auth(){
                 localStorage.setItem("SavedToken", token);
                 // Установка JWT в заголовки axios для последующих запросов
                 axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-                navigate('/')
+                navigate('/home')
             }
 
         } catch (error) {
@@ -43,9 +43,9 @@ export default function Auth(){
     return (
         <>
             <div>Start page</div>
-            <Link to="/home">
+           {/* <Link to="/home">
                 <text>Visit your profile</text>
-            </Link>
+            </Link>*/}
 
             <form onSubmit={handleSubmit}>
                 <label htmlFor="username">Username:</label>
