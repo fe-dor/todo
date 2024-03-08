@@ -8,9 +8,10 @@ import axios from "axios";
 
 export default function SignUp() {
 
-    const [email, setEmail] = useState('Password');
-    const [password, setPassword] = useState('Email');
-    const [username, setUsername] = useState('Username');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [username, setUsername] = useState('');
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         try {
@@ -21,6 +22,7 @@ export default function SignUp() {
     };
 
     return (
+    <>
         <div className={styles.container}>
             <div className={styles.content}>
                 <div className={styles.logo}>
@@ -39,24 +41,51 @@ export default function SignUp() {
                 <div className={styles.formTop}>
                     <span className={styles.signUpText}>Sign up</span>
                     <div className={styles.profilePic}>
-                        <img className={styles.profilePicMan} src={"src/assets/man.png"} alt={"Profile picture"} />
+                        <img className={styles.profilePicMan} src={"src/assets/man.png"} alt={"Profile picture"}/>
                     </div>
                     <div className={styles.editIcon}></div>
                 </div>
-                <div className={styles.form}>
-                    <form onSubmit={handleSubmit}>
-                        <label htmlFor="username">Username:</label>
-                        <input
-                            type="text"
-                            id="username"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </form>
-                </div>
+                <form className={styles.form} onSubmit={handleSubmit}>
+                    <input className={styles.input}
+                        type="text"
+                        id="username"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                    <br/>
+                    <input className={styles.input}
+                        type="text"
+                        id="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <br/>
+                    <input className={styles.input}
+                        type="text"
+                        id="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <br/>
+                    <input className={styles.input}
+                        type="text"
+                        id="confirmPassword"
+                        placeholder="Confirm Password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                    <br/>
+                    <input className={styles.signIn} type="submit" value="Sign-up"/>
+                </form>
+
+
                 <IconLeaf/>
             </div>
         </div>
+    </>
     )
 }
 

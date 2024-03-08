@@ -9,7 +9,6 @@
   height: 100vh;
   width: 100%;
   position: relative;
-  z-index: -2;
 }
 
 .content {
@@ -28,6 +27,8 @@
   padding-left: 14.62px;
   padding-top: 23px;
   padding-bottom: 51px;
+  position: relative;
+  z-index: 1;
 }
 
 .logoText {
@@ -43,6 +44,7 @@
   display: flex;
   flex-direction: column;
   position: relative;
+  z-index: 1;
 }
 
 .signUpText {
@@ -74,10 +76,54 @@
   height: 25px;
 }
 
+.form {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 19px;
+  padding-left: 50px;
+  padding-right: 26px;
+  max-width: 400px;
+}
+
+.button {
+  box-sizing: border-box;
+  border-radius: 8px;
+  padding: 13px 21px;
+
+  width: 100%;
+  height: 43px;
+
+  font-family: var(--font-family);
+  font-style: italic;
+  font-size: 13px;
+}
+
+.input {
+  @extend .button;
+  border: 1px solid rgba(117, 117, 117, 0.4);
+
+  backdrop-filter: blur(4px);
+  background: rgba(217, 217, 217, 0.3);
+
+  font-weight: 300;
+
+  color: #757575;
+}
+
+.signIn {
+  @extend .button;
+
+  color: white;
+  font-weight: 500;
+  text-align: center;
+  border: 0;
+  background: #000;
+}
+
 .iconLeaf {
   backdrop-filter: blur(4px);
   position: absolute;
-  z-index: -1;
   top: 0;
   right: 0;
 }
