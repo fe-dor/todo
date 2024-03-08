@@ -1,10 +1,16 @@
 import styles from "./SignUp.module.scss"
-import {useState} from "react";
+import {ChangeEvent, useState} from "react";
+import SignIconLeaf from "../signIconLeaf/SignIconLeaf.tsx";
+import {Link} from "react-router-dom";
 import axios from "axios";
 
-
-
-
+/*const myPopup = new Popup({
+    id: "my-popup",
+    title: "My First Popup",
+    content: `
+        An example popup.
+        Supports multiple lines.`,
+});*/
 
 export default function SignUp() {
 
@@ -12,111 +18,138 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [username, setUsername] = useState('');
+    const [selectedFile, setSelectedFile] = useState(new File([""], ""));
+
+
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
         event.preventDefault();
         try {
+            if (password != confirmPassword) {
+                alert("Passwords don't match");
+            }
+            const response = await axios.post('http://localhost:5000/registration', { //TODO: переделать в env
+                email: email,
+                password: password,
+                username: username
+                //photo: selectedFile
+            });
+
+            if (response.status == 200) {
+                alert("cool");
+            }
+            else {
+                alert("bad");
+            }
+
             console.log("Signing up");
         } catch (error) {
             console.error(error);
         }
     };
 
+    function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+        if (event.target.files != null) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+            img.src = URL.createObjectURL(event.target.files[0]); // file - это ваш объект File
+            img.onload = () => {
+                // Установите размеры canvas в соответствии с желаемым разрешением
+                canvas.width = 300;
+                canvas.height = 300;
+                if (ctx != null) {
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    // Создаем новый объект File с измененным разрешением и качеством сжатия
+                    canvas.toBlob((blob) => {
+                        if (blob != null) {
+                            setSelectedFile(new File([blob], "photo"))
+                        }
+                    }, 'image/jpeg', 0.7); // Указываем тип MIME и качество сжатия (0.8 - высокое качество)
+                }
+            };
+        }
+    }
+
     return (
     <>
         <div className={styles.container}>
             <div className={styles.content}>
                 <div className={styles.logo}>
-                    <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.04832 0.407715C10.413 0.407715 13.1406 3.13533 13.1406 6.50002H7.04832V0.407715Z"
-                              fill="black"/>
-                        <path d="M13.1402 12.5925C9.77547 12.5925 7.04785 9.86491 7.04785 6.50022H13.1402V12.5925Z"
-                              fill="black"/>
-                        <path d="M0.955544 12.5925C4.32023 12.5925 7.04785 9.86491 7.04785 6.50022H0.955544V12.5925Z"
-                              fill="black"/>
-                        <path d="M0.955544 6.50024C4.32023 6.50024 7.04785 3.77263 7.04785 0.407937H0.955544V6.50024Z"
-                              fill="black"/>
-                    </svg>
-                    <span className={styles.logoText}>TodoHive</span>
+                    <Link className={styles.linkLogo} to={'/'}>
+                        <svg width="14" height="13" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M7.04832 0.407715C10.413 0.407715 13.1406 3.13533 13.1406 6.50002H7.04832V0.407715Z"
+                                fill="black"/>
+                            <path d="M13.1402 12.5925C9.77547 12.5925 7.04785 9.86491 7.04785 6.50022H13.1402V12.5925Z"
+                                  fill="black"/>
+                            <path
+                                d="M0.955544 12.5925C4.32023 12.5925 7.04785 9.86491 7.04785 6.50022H0.955544V12.5925Z"
+                                fill="black"/>
+                            <path
+                                d="M0.955544 6.50024C4.32023 6.50024 7.04785 3.77263 7.04785 0.407937H0.955544V6.50024Z"
+                                fill="black"/>
+                        </svg>
+                        <span className={styles.logoText}>TodoHive</span>
+                    </Link>
                 </div>
                 <div className={styles.formTop}>
                     <span className={styles.signUpText}>Sign up</span>
-                    <div className={styles.profilePic}>
-                        <img className={styles.profilePicMan} src={"src/assets/man.png"} alt={"Profile picture"}/>
-                    </div>
-                    <div className={styles.editIcon}></div>
+                    <label className={styles.photoLabel} htmlFor="fileUpload">
+                        <img className={styles.profilePic} src={
+                            selectedFile.size > 0 ? URL.createObjectURL(selectedFile) : "src/assets/man.png"
+                        } alt={"Profile picture"}/>
+                        <div className={styles.editIcon}></div>
+                    </label>
                 </div>
+                <input hidden id="fileUpload" type="file" name="pic" accept=".jpg, .jpeg, .png"
+                       onChange={(e) => handleFileChange(e)}
+                />
                 <form className={styles.form} onSubmit={handleSubmit}>
                     <input className={styles.input}
-                        type="text"
-                        id="username"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                           type="text"
+                           id="username"
+                           placeholder="Username"
+                           value={username}
+                           onChange={(e) => setUsername(e.target.value)}
                     />
-                    <br/>
                     <input className={styles.input}
-                        type="text"
-                        id="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                           type="text"
+                           id="email"
+                           placeholder="Email"
+                           value={email}
+                           onChange={(e) => setEmail(e.target.value)}
                     />
-                    <br/>
                     <input className={styles.input}
-                        type="text"
-                        id="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                           type="password"
+                           id="password"
+                           placeholder="Password"
+                           value={password}
+                           onChange={(e) => setPassword(e.target.value)}
                     />
-                    <br/>
                     <input className={styles.input}
-                        type="text"
-                        id="confirmPassword"
-                        placeholder="Confirm Password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
+                           type="password"
+                           id="confirmPassword"
+                           placeholder="Confirm Password"
+                           value={confirmPassword}
+                           onChange={(e) => setConfirmPassword(e.target.value)}
                     />
-                    <br/>
                     <input className={styles.signIn} type="submit" value="Sign-up"/>
                 </form>
-
-
-                <IconLeaf/>
+                <Link className={styles.linkSignIn} to={"/sign-in"}>
+                    <text className={styles.formBottom}>Already have an account?<span> </span>
+                        <span className={styles.formBottomDec}>Sign in</span>
+                    </text>
+                </Link>
+                <Link className={styles.linkStart} to={"/"}>
+                    <p className={styles.footer}>
+                        Join our new beta program to test <br className={styles.footerBr}/>
+                        our new experimental feature
+                    </p>
+                </Link>
+                <SignIconLeaf class={styles.iconLeafUp}/>
+                <SignIconLeaf class={styles.iconLeafDown}/>
             </div>
         </div>
     </>
-    )
-}
-
-function IconLeaf() {
-    return (
-        <div className={styles.iconLeaf}>
-            <svg width="130" height="130" viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g filter="url(#filter0_b_128_1509)">
-                    <path
-                        d="M64.4988 129.386C28.8771 129.171 0.173658 100.121 0.387876 64.499L64.8867 64.8868L64.4988 129.386Z"
-                        fill="white" fill-opacity="0.42"/>
-                    <path
-                        d="M0.776556 6.34445e-05C36.3983 0.214281 65.1017 29.2651 64.8875 64.8868L0.388679 64.4989L0.776556 6.34445e-05Z"
-                        fill="white" fill-opacity="0.42"/>
-                    <path
-                        d="M129.774 0.775815C94.1525 0.561597 65.1017 29.2651 64.8875 64.8868L129.386 65.2747L129.774 0.775815Z"
-                        fill="white" fill-opacity="0.42"/>
-                    <path
-                        d="M129.386 65.2746C93.7638 65.0604 64.7131 93.7638 64.4988 129.386L128.998 129.773L129.386 65.2746Z"
-                        fill="white" fill-opacity="0.42"/>
-                </g>
-                <defs>
-                    <filter id="filter0_b_128_1509" x="-3.61328" y="-4" width="137.388" height="137.773"
-                            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-                        <feFlood flood-opacity="0" result="BackgroundImageFix"/>
-                        <feGaussianBlur in="BackgroundImageFix" stdDeviation="2"/>
-                        <feComposite in2="SourceAlpha" operator="in" result="effect1_backgroundBlur_128_1509"/>
-                        <feBlend mode="normal" in="SourceGraphic" in2="effect1_backgroundBlur_128_1509" result="shape"/>
-                    </filter>
-                </defs>
-            </svg>
-        </div>
     )
 }

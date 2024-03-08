@@ -6,7 +6,8 @@
   background-size: cover; /* или 100% 100% для растяжения */
   background-repeat: no-repeat;
   //background-position: center;
-  height: 100vh;
+  height: auto;
+  min-height: 100vh;
   width: 100%;
   position: relative;
 }
@@ -24,9 +25,9 @@
   width: auto;
   justify-content: flex-start;
   align-items: center;
-  padding-left: 14.62px;
-  padding-top: 23px;
-  padding-bottom: 51px;
+  margin-left: 14.62px;
+  margin-top: 23px;
+  margin-bottom: 51px;
   position: relative;
   z-index: 1;
 }
@@ -39,6 +40,14 @@
   color: #000;
 }
 
+.linkLogo {
+  text-decoration: none;
+}
+
+.photoLabel {
+  cursor: pointer;
+}
+
 .formTop {
   margin: auto;
   display: flex;
@@ -48,7 +57,7 @@
 }
 
 .signUpText {
-  font-family: var(--font-family);
+  font-family: var(--second-family);
   font-weight: 500;
   font-size: 21px;
   color: #000;
@@ -62,10 +71,10 @@
   background-color: #dac8f1;
 }
 
-.profilePicMan {
+/*.profilePic {
   width: 110px;
   height: 110px;
-}
+}*/
 
 .editIcon {
   background-image: url("/src/assets/edit_icon.svg");
@@ -79,11 +88,13 @@
 .form {
   display: flex;
   flex-direction: column;
-  margin: auto;
-  margin-top: 19px;
+  align-items: center;
+  row-gap: 16px;
+
   padding-left: 50px;
   padding-right: 26px;
-  max-width: 400px;
+
+  margin-top: 19px;
 }
 
 .button {
@@ -92,6 +103,7 @@
   padding: 13px 21px;
 
   width: 100%;
+  max-width: 500px;
   height: 43px;
 
   font-family: var(--font-family);
@@ -119,17 +131,83 @@
   text-align: center;
   border: 0;
   background: #000;
+  cursor: pointer;
 }
 
-.iconLeaf {
+.linkSignIn {
+  position: relative;
+  z-index: 1;
+  margin: 27px auto 92px;
+  text-decoration: none;
+}
+
+.formBottom {
+  font-family: var(--second-family);
+  font-weight: 300;
+  font-size: 10px;
+  color: #000;
+}
+
+.formBottomDec {
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+}
+
+.linkStart {
+  position: absolute;
+  bottom: 36px;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+
+  text-decoration: none;
+}
+
+.footer {
+  font-family: var(--second-family);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 10px;
+  text-decoration: underline;
+  text-decoration-skip-ink: none;
+  text-align: center;
+  color: #000;
+  margin: 0;
+}
+
+.iconLeafUp {
   backdrop-filter: blur(4px);
   position: absolute;
   top: 0;
   right: 0;
 }
 
+.iconLeafDown {
+  backdrop-filter: blur(4px);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: rotate(180deg);
+}
+
 @include lg {
-  .iconLeaf {
+  .iconLeafUp {
     display: none;
+  }
+  .iconLeafDown {
+    display: none;
+  }
+  .footerBr {
+    display: none;
+  }
+  .input:hover {
+    filter: brightness(93%);
+  }
+  .signIn:hover {
+    background: #333333;
+  }
+  .signIn:active {
+    background: #000000;
   }
 }

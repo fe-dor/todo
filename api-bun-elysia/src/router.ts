@@ -31,7 +31,8 @@ router.post(
                 minLength: 5,
                 maxLength: 15,
                 error: "472"
-            })
+            }),
+            photo: t.Optional(t.File())
         })
     }
 )
@@ -59,6 +60,7 @@ router.use(
         secret: secretJwt,
     })
 ).use(cookie())
+
 .post('/login',  async ({body, jwt2, cookie, setCookie, set}) => {
     const answer = await controllerAuth.login(body)
     if (answer instanceof Response){
@@ -85,30 +87,32 @@ router.use(
             error: "472",
         })
     })
-}).use(bearer())
-    .get('/profile', async ({ bearer, jwt2, set }) => {
-        const profile = await jwt2.verify(bearer)
+})
 
-        if (!profile) {
-            set.status = 401;
-            return 'Unauthorized';
-        }
+.use(bearer())
+.get('/profile', async ({ bearer, jwt2, set }) => {
+    const profile = await jwt2.verify(bearer)
 
-        const {id} = profile
+    if (!profile) {
+        set.status = 401;
+        return 'Unauthorized';
+    }
 
-        return controllerProfile.profile(id);
-    }, {
-        beforeHandle({ bearer, set }) {
-            if (!bearer) {
-                set.status = 400
-                set.headers[
-                    'WWW-Authenticate'
-                    ] = `Bearer realm='sign', error="invalid_request"`
+    const {id} = profile
 
-                return 'Unauthorized'
-            }
+    return controllerProfile.profile(id);
+}, {
+    beforeHandle({ bearer, set }) {
+        if (!bearer) {
+            set.status = 400
+            set.headers[
+                'WWW-Authenticate'
+                ] = `Bearer realm='sign', error="invalid_request"`
+
+            return 'Unauthorized'
         }
     }
+}
 )
 
 /*router.get('/data', controllerAuth.getData)*/

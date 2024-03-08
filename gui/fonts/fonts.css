@@ -26,6 +26,27 @@
     src: url("Inter/Inter-Bold.ttf") format("opentype");
 }
 
+@font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    src: url("Roboto/Roboto-Medium.ttf") format("opentype");
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-style: italic;
+    font-weight: 300;
+    src: url("Roboto/Roboto-Italic.ttf") format("opentype");
+}
+
+@font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 300;
+    src: url("Roboto/Roboto-Light.ttf") format("opentype");
+}
+
 :root {
     --font-family: "Inter", sans-serif;
     --second-family: "Roboto", sans-serif;

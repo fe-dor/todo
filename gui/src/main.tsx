@@ -5,7 +5,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import './index.scss'
-import Auth from "./components/auth/Auth.tsx";
+import SignIn from "./components/sign-in/SignIn.tsx";
 import Home from "./components/home/Home.tsx";
 import Profile from "./components/profile/Profile.tsx";
 import CreateTask from "./components/create_task/CreateTask.tsx";
@@ -17,7 +17,7 @@ import SignUp from "./components/sign-up/SignUp.tsx";
 const router = createBrowserRouter([
     { path: "/", Component: Start },
     { path: "/home", Component: Home },
-    { path: "/auth", Component: Auth },
+    { path: "/sign-in", Component: SignIn },
     { path: "/sign-up", Component: SignUp },
     { path: "/profile", Component: Profile },
     { path: "/create-task", Component: CreateTask },
