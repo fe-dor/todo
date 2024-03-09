@@ -35,7 +35,7 @@ router.post(
                 maxLength: 15,
                 error: "472"
             }),
-            photo: t.Files({
+            photo: t.String({
                 error: "473"
             })
         })

@@ -19,7 +19,7 @@ export default function Navbar( ){
       </div>
         <Link to="/profile">
             <img className={styles.profilePic} src={
-                userPhoto.size > 0 ? URL.createObjectURL(userPhoto) : man
+                userPhoto.length > 0 ? userPhoto : man
             } alt={""}/>
         </Link>
         <IconLeaf/>

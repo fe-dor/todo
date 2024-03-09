@@ -46,7 +46,7 @@ async function deleteUserTempById(userId: string) {
 
 
 class AuthController {
-    async registration(body: {username: string, password: string, email: string, photo: File[]}) {
+    async registration(body: {username: string, password: string, email: string, photo: string}) {
         try {
             const {username, password, email, photo} = body;
             const candidate = await User.findOne({email})
@@ -62,14 +62,12 @@ class AuthController {
             const code = generateRandomCode(12);
             const hashCode = hashSync(code, 8);
             const hashPassword = hashSync(password, 7);
-            const fileArrayBuffer = await photo[0].arrayBuffer()
-            const fileBuffer = Buffer.from(fileArrayBuffer);
             const userTemp = new UserTemp({
                 email: email,
                 username: username,
                 password: hashPassword,
                 regCode: hashCode,
-                photo: fileBuffer
+                photo: photo
             })
             await userTemp.save()
             // Настройте сообщение

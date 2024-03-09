@@ -12,8 +12,7 @@ export default function Home(){
 
     const [name, setName] = useState("");
     const navigate = useNavigate();
-    const [isLoading, setIsLoading] = useState(true)
-    const [userPhoto, setUserPhoto] = useState(new File([""], ''));
+    const [userPhoto, setUserPhoto] = useState("");
 
     useEffect(() => {
         axios.get("http://localhost:5000/profile", {
@@ -24,11 +23,7 @@ export default function Home(){
             if (response.status == 200){
                 const { username, photo } = response.data
                 setName(username)
-                //console.log(data)
-                const data = photo.data
-                setUserPhoto(new File(data, "photo"))
-                //console.log(new File([data], ''))
-                setIsLoading(false)
+                setUserPhoto(photo)
                 return
             } else {
                 console.log("error on getting profile from server")
@@ -41,9 +36,9 @@ export default function Home(){
     }, []); // Пустой массив зависимостей гарантирует, что эффект будет вызван только один раз
 
 
-    if (isLoading) {
+    /*if (isLoading) {
         return <></>
-    }
+    }*/
 
     return (
         <>
@@ -52,7 +47,6 @@ export default function Home(){
                 <Groups/>
                 <Tasks/>
             </HomeContext.Provider>
-            <img src={URL.createObjectURL(userPhoto)} alt={""}></img>
         </>
     )
 }

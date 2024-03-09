@@ -19,7 +19,7 @@ export default function SignUp() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [username, setUsername] = useState('');
-    const [selectedFile, setSelectedFile] = useState(new File([""], ""));
+    const [selectedImage, setSelectedImage] = useState("");
 
 
     const handleSubmit = async (event: { preventDefault: () => void; }) => {
@@ -29,12 +29,12 @@ export default function SignUp() {
                 alert("Passwords don't match");
                 return
             }
-            console.log(selectedFile);
+            console.log(selectedImage);
             const formData = new FormData();
             formData.append('email', email)
             formData.append('password', password)
             formData.append('username', username)
-            formData.append('photo', selectedFile);
+            formData.append('photo', selectedImage);
             const response = await axios.post('http://localhost:5000/registration', formData)
             if (response.status === 200) {
                 alert("Follow the link in the email sent to you");
@@ -59,16 +59,14 @@ export default function SignUp() {
             img.src = URL.createObjectURL(event.target.files[0]); // file - это ваш объект File
             img.onload = () => {
                 // Установите размеры canvas в соответствии с желаемым разрешением
-                canvas.width = 300;
-                canvas.height = 300;
+                canvas.width = 200;
+                canvas.height = 200;
                 if (ctx != null) {
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                     // Создаем новый объект File с измененным разрешением и качеством сжатия
-                    canvas.toBlob((blob) => {
-                        if (blob != null) {
-                            setSelectedFile(new File([blob], "photo"))
-                        }
-                    }, 'image/jpeg', 0.7); // Указываем тип MIME и качество сжатия (0.8 - высокое качество)
+                    const photo = canvas.toDataURL('image/png', 0.8);
+                    setSelectedImage(photo)
+                    console.log(photo)
                 }
             };
         }
@@ -100,7 +98,7 @@ export default function SignUp() {
                     <span className={styles.signUpText}>Sign up</span>
                     <label className={styles.photoLabel} htmlFor="fileUpload">
                         <img className={styles.profilePic} src={
-                            selectedFile.size > 0 ? URL.createObjectURL(selectedFile) : man
+                            selectedImage.length > 0 ? selectedImage : man
                         } alt={"Profile picture"}/>
                         <div className={styles.editIcon}></div>
                     </label>
