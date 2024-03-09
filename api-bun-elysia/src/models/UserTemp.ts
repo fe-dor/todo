@@ -5,6 +5,7 @@ const UserTemp = new Schema({
     username: {type: String, required: true},
     password: {type: String, required: true},
     regCode: {type: String, required: true},
+    photo: {type: Buffer, required: false},
     expires: { type: Date, expires: 120, default: Date.now }
 })
 

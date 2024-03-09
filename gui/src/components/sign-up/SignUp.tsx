@@ -4,6 +4,7 @@ import SignIconLeaf from "../signIconLeaf/SignIconLeaf.tsx";
 import {Link} from "react-router-dom";
 import axios from "axios";
 
+import man from './../../assets/man.png'
 /*const myPopup = new Popup({
     id: "my-popup",
     title: "My First Popup",
@@ -26,24 +27,27 @@ export default function SignUp() {
         try {
             if (password != confirmPassword) {
                 alert("Passwords don't match");
+                return
             }
-            const response = await axios.post('http://localhost:5000/registration', { //TODO: переделать в env
-                email: email,
-                password: password,
-                username: username
-                //photo: selectedFile
-            });
-
-            if (response.status == 200) {
-                alert("cool");
+            console.log(selectedFile);
+            const formData = new FormData();
+            formData.append('email', email)
+            formData.append('password', password)
+            formData.append('username', username)
+            formData.append('photo', selectedFile);
+            const response = await axios.post('http://localhost:5000/registration', formData)
+            if (response.status === 200) {
+                alert("Follow the link in the email sent to you");
             }
-            else {
-                alert("bad");
-            }
-
             console.log("Signing up");
         } catch (error) {
-            console.error(error);
+            if (axios.isAxiosError(error)) {
+                // Проверка, является ли ошибка ошибкой Axios
+               alert(error.response?.data); // Получение statusText
+            } else {
+                // Обработка других типов ошибок
+                console.error(error);
+            }
         }
     };
 
@@ -96,7 +100,7 @@ export default function SignUp() {
                     <span className={styles.signUpText}>Sign up</span>
                     <label className={styles.photoLabel} htmlFor="fileUpload">
                         <img className={styles.profilePic} src={
-                            selectedFile.size > 0 ? URL.createObjectURL(selectedFile) : "src/assets/man.png"
+                            selectedFile.size > 0 ? URL.createObjectURL(selectedFile) : man
                         } alt={"Profile picture"}/>
                         <div className={styles.editIcon}></div>
                     </label>

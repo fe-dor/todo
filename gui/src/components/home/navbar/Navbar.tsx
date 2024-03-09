@@ -2,21 +2,27 @@ import styles from './Navbar.module.scss';
 import {Link} from "react-router-dom";
 import {useContext} from "react";
 import { HomeContext } from './../HomeContext';
+import man from "../../../assets/man.png";
+
 
 export default function Navbar( ){
 
-  const username: string = useContext(HomeContext);
+  const {name, userPhoto} = useContext(HomeContext);
+
+  console.log(userPhoto)
 
   return (
     <div className={styles.container}>
       <div className={styles.helloContainer}>
-          <h1 className={styles.text1}>Hello {username},</h1>
+          <h1 className={styles.text1}>Hello {name},</h1>
           <h2 className={styles.text2}>You have work today</h2>
       </div>
-      <Link to="/profile">
-        <div className={styles.profilePic}></div>
-      </Link>
-      <IconLeaf />
+        <Link to="/profile">
+            <img className={styles.profilePic} src={
+                userPhoto.size > 0 ? URL.createObjectURL(userPhoto) : man
+            } alt={""}/>
+        </Link>
+        <IconLeaf/>
     </div>
   )
 }

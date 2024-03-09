@@ -13,6 +13,7 @@ import EditTask from "./components/edit_task/EditTask.tsx";
 import Fallback from "./components/fallback/Fallback.tsx";
 import Start from "./components/start/Start.tsx";
 import SignUp from "./components/sign-up/SignUp.tsx";
+import Confirmation from "./components/confirmation/Confirmation.tsx";
 
 const router = createBrowserRouter([
     { path: "/", Component: Start },
@@ -21,7 +22,8 @@ const router = createBrowserRouter([
     { path: "/sign-up", Component: SignUp },
     { path: "/profile", Component: Profile },
     { path: "/create-task", Component: CreateTask },
-    { path: "/edit-task", Component: EditTask }
+    { path: "/edit-task", Component: EditTask },
+    { path: "/confirmation", Component: Confirmation }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

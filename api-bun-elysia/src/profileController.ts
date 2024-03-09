@@ -14,6 +14,7 @@ class ProfileController {
             return {
                 "email" : user.email,
                 "username": user.username,
+                "photo": user.photo
             }
         } catch (e) {
             return new Response('Profile error', {

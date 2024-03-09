@@ -9,13 +9,16 @@ import {cookie} from "@elysiajs/cookie";
 import { bearer } from '@elysiajs/bearer'
 import user from "./models/User";
 const secretJwt: string = typeof Bun.env.JWT_CODE === 'string' ? Bun.env.JWT_CODE : '';
+const client_url: string = typeof Bun.env.CLIENT_URL === 'string' ? Bun.env.CLIENT_URL : 'http://localhost:5173';
 
 
 
 router.post(
     '/registration',
-    ({body}) => {
-        return controllerAuth.registration(body)
+    ({body, set, request}) => {
+        const response = controllerAuth.registration(body)
+        set.headers["Access-Control-Allow-Origin"] = client_url
+        return response
     }, {
         body : t.Object({
             username: t.String({
@@ -32,26 +35,12 @@ router.post(
                 maxLength: 15,
                 error: "472"
             }),
-            photo: t.Optional(t.File())
-        })
-    }
-)
-router.post('/confirmation',
-    ({body}) => {
-        return controllerAuth.confirmation(body)
-    }, {
-        body : t.Object({
-            email: t.String({
-                format: 'email',
-                error: "471"
-            }),
-            code: t.String({
-                minLength: 6,
-                maxLength: 6,
+            photo: t.Files({
                 error: "473"
             })
         })
-    })
+    }
+)
 router.use(
     jwt({
         name: 'jwt2',
@@ -88,6 +77,37 @@ router.use(
         })
     })
 })
+
+.post('/confirmation',
+    async ({body, jwt2}) => {
+        const answer = await controllerAuth.confirmation(body)
+        if (answer instanceof Response){
+            return answer
+        }
+
+        const token = await jwt2.sign({"id": answer._id.toString()})
+        console.log(secretJwt)
+        console.log(token)
+
+        /*setCookie('auth', token, { //
+            httpOnly: false,
+            maxAge: 7 * 86400
+        });*/
+        return {"token" : token}
+    }, {
+        body : t.Object({
+            email: t.String({
+                format: 'email',
+                error: "471"
+            }),
+            code: t.String({
+                minLength: 12,
+                maxLength: 12,
+                error: "473"
+            })
+        })
+    }
+)
 
 .use(bearer())
 .get('/profile', async ({ bearer, jwt2, set }) => {

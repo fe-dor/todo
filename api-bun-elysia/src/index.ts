@@ -13,6 +13,7 @@ import.meta.require
 const PORT: string = typeof Bun.env.PORT === 'string' ? Bun.env.PORT : '';
 const mongoUri: string = typeof Bun.env.MONGO_URI === 'string' ? Bun.env.MONGO_URI : '';
 const secretJwt: string = typeof Bun.env.JWT_CODE === 'string' ? Bun.env.JWT_CODE : '';
+const client_url: string = typeof Bun.env.CLIENT_URL === 'string' ? Bun.env.CLIENT_URL : 'http://localhost:5173';
 
 
 const app = new Elysia()
@@ -35,8 +36,9 @@ app.use(swagger({
 
 //added to pass cors...
 app.onAfterHandle(({ request, set }) => {
+    set.headers["Access-Control-Allow-Origin"] = client_url
     // Only process CORS requests
-    if (request.method !== "OPTIONS") return;
+    if (request.method !== "OPTIONS") return
 
     const allowHeader = set.headers["Access-Control-Allow-Headers"];
     if (allowHeader === "*") {
@@ -48,7 +50,7 @@ app.onAfterHandle(({ request, set }) => {
 
 app.use(bearer())
 
-app.onError(({ code, error }) => {
+app.onError(({ code, error, set }) => {
     if (code === 'VALIDATION') {
         let message = ''
         switch (error.message) {
@@ -70,7 +72,10 @@ app.onError(({ code, error }) => {
             }
         }
         return new Response(message, {
-            status: +error.message
+            status: +error.message,
+            headers: {
+                'Access-Control-Allow-Origin': client_url
+            }
         })
     }
 })
@@ -80,6 +85,7 @@ try {
     await mongoose.connect(mongoUri)
     app.listen(PORT, () => console.log(`🦊 server started on port ${PORT}`))
     console.log(secretJwt)
+    console.log('client url:', client_url)
 } catch (e) {
     console.error(e)
 }

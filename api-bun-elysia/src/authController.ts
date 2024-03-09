@@ -10,9 +10,12 @@ import.meta.require
 
 import {Types} from "mongoose";
 import {Elysia} from "elysia";
+import ElysiaTypeOptions from "elysia/dist/index-59i0HOI0";
 
 const gmail_user = Bun.env.GMAIL_USER
 const secret = Bun.env.JWT_SECRET;
+const client_url: string = typeof Bun.env.CLIENT_URL === 'string' ? Bun.env.CLIENT_URL : 'http://localhost:5173';
+
 
 /*function generateAccessToken(id:  Types.ObjectId, roles: string[]) {
     const payload = {
@@ -43,9 +46,9 @@ async function deleteUserTempById(userId: string) {
 
 
 class AuthController {
-    async registration(body: {username: string, password: string, email: string}) {
+    async registration(body: {username: string, password: string, email: string, photo: File[]}) {
         try {
-            const {username, password, email} = body;
+            const {username, password, email, photo} = body;
             const candidate = await User.findOne({email})
             if (candidate) {
                 return new Response('An account is already linked to this email', {
@@ -56,14 +59,17 @@ class AuthController {
             if (candidate_temp) {
                 await deleteUserTempById(candidate_temp._id.toString())
             }
-            const code = generateRandomCode(6);
+            const code = generateRandomCode(12);
             const hashCode = hashSync(code, 8);
             const hashPassword = hashSync(password, 7);
+            const fileArrayBuffer = await photo[0].arrayBuffer()
+            const fileBuffer = Buffer.from(fileArrayBuffer);
             const userTemp = new UserTemp({
                 email: email,
                 username: username,
                 password: hashPassword,
                 regCode: hashCode,
+                photo: fileBuffer
             })
             await userTemp.save()
             // Настройте сообщение
@@ -73,8 +79,8 @@ class AuthController {
                 subject: `Hello, ${username}!`,
                 html: '<div>' +
                     '<h1 style="font-size: 18px">Welcome to my ToDo app!</h1>' +
-                    `<p style="font-size: 14px">Your activation code: </p>` +
-                    `<p style="text-align: center; font-size: 22px">${code}</p>` +
+                    `<p style="font-size: 14px">Your activation link: </p>` +
+                    `<link style="text-align: center; font-size: 22px">${client_url}/confirmation?email=${email}&code=${code}</link>` +
                     '</div>'
             };
             // Отправьте электронное письмо
@@ -128,13 +134,12 @@ class AuthController {
                 email: candidate.email,
                 username: candidate.username,
                 password: candidate.password,
+                photo: candidate.photo,
                 roles: ['USER']
             })
             await user.save()
             await deleteUserTempById(candidate._id.toString())
-            return new Response('Confirmation successful', {
-                status: 200
-            })
+            return user
         } catch (e) {
             console.log(e);
             return new Response('Registration error', {
