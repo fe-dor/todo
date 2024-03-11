@@ -1,0 +1,44 @@
+@import "../../utils";
+
+.welcome {
+  font-family: var(--second-family);
+  font-weight: 500;
+  font-size: 21px;
+  color: #000;
+  text-align: center;
+  width: auto;
+  //white-space: nowrap;
+
+  margin: 156px 94px 2px 114px;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.iconLeafUp {
+  backdrop-filter: blur(4px);
+  position: absolute;
+  top: -4px;
+  left: 0;
+  transform: rotate(180deg);
+}
+
+.iconLeafDown {
+  backdrop-filter: blur(4px);
+  position: absolute;
+  z-index: 0;
+  bottom: -3px;
+  right: 0;
+}
+
+@include lg {
+  .iconLeafUp {
+    display: none;
+  }
+  .iconLeafDown {
+    display: none;
+  }
+}

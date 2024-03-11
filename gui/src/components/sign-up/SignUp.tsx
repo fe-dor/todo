@@ -135,7 +135,7 @@ export default function SignUp() {
                            value={confirmPassword}
                            onChange={(e) => setConfirmPassword(e.target.value)}
                     />
-                    <input className={styles.signIn} type="submit" value="Sign-up"/>
+                    <input className={styles.signUp} type="submit" value="Sign up"/>
                 </form>
                 <Link className={styles.linkSignIn} to={"/sign-in"}>
                     <text className={styles.formBottom}>Already have an account?<span> </span>
@@ -148,9 +148,9 @@ export default function SignUp() {
                         our new experimental feature
                     </p>
                 </Link>
-                <SignIconLeaf class={styles.iconLeafUp}/>
-                <SignIconLeaf class={styles.iconLeafDown}/>
             </div>
+            <SignIconLeaf class={styles.iconLeafUp}/>
+            <SignIconLeaf class={styles.iconLeafDown}/>
         </div>
     </>
     )
