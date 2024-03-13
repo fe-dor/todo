@@ -100,7 +100,7 @@ export default function SignUp() {
                         <img className={styles.profilePic} src={
                             selectedImage.length > 0 ? selectedImage : man
                         } alt={"Profile picture"}/>
-                        <div className={styles.editIcon}></div>
+                        <div className={styles.editIcon}/>
                     </label>
                 </div>
                 <input hidden id="fileUpload" type="file" name="pic" accept=".jpg, .jpeg, .png"

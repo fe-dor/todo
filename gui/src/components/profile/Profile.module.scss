@@ -1,7 +1,183 @@
-.head {
+@import "../../utils";
 
+
+.head {
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  background-image: url("src/assets/gradient_profile.png");
+  background-size: cover; /* или 100% 100% для растяжения */
+  background-repeat: no-repeat;
 }
 
 .form {
+  box-sizing: border-box;
+  padding-right: 46px;
+  padding-left: 36px;
+  padding-top: 54px;
+  margin: 0 auto;
 
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  box-sizing: border-box;
+
+  max-width: 500px;
+
+  border: 1px solid #757575;
+  border-radius: 8px;
+  padding: 18px 22px;
+  margin-bottom: 29px;
+  height: 51px;
+
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 12px;
+  color: #757575;
+}
+
+.logOut {
+  width: 100%;
+  box-sizing: border-box;
+
+  max-width: 125px;
+
+  border-radius: 8px;
+  border: 0;
+  padding: 15px 36px;
+  height: 47px;
+  margin-top: 12px;
+
+  background: #ff5757;
+
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 14px;
+  color: white;
+}
+
+.textForm {
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 14px;
+  color: #000;
+
+  width: 100%;
+  max-width: 500px;
+
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+.content {
+  display: flex;
+  max-width: 1200px;
+}
+
+.photoLabel {
+  cursor: pointer;
+
+  position: relative;
+
+  margin-top: 105px;
+  margin-bottom: 55px;
+  width: 133px;
+  height: 133px;
+}
+
+.profilePic {
+  width: 133px;
+  height: 133px;
+  border-radius: 50%;
+  background-color: #dac8f1;
+}
+
+.nameText {
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 14px;
+  color: #000;
+  text-align: center;
+
+  margin-top: 9px;
+  margin-bottom: 0;
+}
+
+.editIcon {
+  background-image: url("/src/assets/edit_icon.svg");
+  position: absolute;
+  bottom: -4px;
+  right: 20px;
+  width: 25px;
+  height: 25px;
+}
+
+.leafTop {
+  position: absolute;
+  top: 0;
+  left: 100px;
+  right: 98px;
+  height: 44px;
+  background-image: url("src/assets/leaf.svg");
+}
+
+.leaf {
+  backdrop-filter: blur(3px);
+  position: absolute;
+}
+
+.leaf1 {
+  @extend .leaf;
+  bottom: 0;
+  left: 0;
+  transform: rotate(180deg);
+}
+
+.leaf2 {
+  @extend .leaf;
+  bottom: 95px;
+  left: 0;
+}
+
+.leaf3 {
+  @extend .leaf;
+  bottom: 196px;
+  left: 0;
+  transform: rotate(90deg);
+}
+
+.leaf4 {
+  @extend .leaf;
+  bottom: -2px;
+  right: 0;
+  transform: rotate(-90deg);
+}
+
+.leaf5 {
+  @extend .leaf;
+  bottom: 96px;
+  right: 0;
+  transform: rotate(-90deg);
+}
+
+.leaf6 {
+  @extend .leaf;
+  bottom: 196px;
+  right: 0;
+}
+
+@include sm {
+  .leaf {
+    display: none;
+  }
+  .leafTop {
+    display: none;
+  }
 }

@@ -41,7 +41,8 @@ router.post(
         })
     }
 )
-router.use(
+
+.use(
     jwt({
         name: 'jwt2',
         exp: '7d',
