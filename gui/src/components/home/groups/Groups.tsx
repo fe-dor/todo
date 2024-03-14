@@ -1,4 +1,5 @@
 import styles from "./Groups.module.scss"
+import {useEffect} from "react";
 
 export default function Groups() {
     const groups: Group[] = [
@@ -6,6 +7,10 @@ export default function Groups() {
         {color: ColorEnum.LightGreen, name: 'Work', count: 3, icon: IconEnum.Car.valueOf()},
         {color: ColorEnum.Purple, name: '@WWWWWWW@qq', count: 2, icon: IconEnum.Dumbbell.valueOf()},
     ]
+
+    useEffect(() => {
+
+    }, []);
 
     return (
     <>

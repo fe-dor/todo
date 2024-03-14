@@ -1,12 +1,13 @@
-/*
-import {Schema, model} from 'mongoose'
+import {Schema, model, Types} from 'mongoose'
 
 const Note = new Schema({
-    text: {type: String, required: true},
-    username: {type: String, required: true},
-    password: {type: String, required: true},
-    regCode: {type: String, required: true},
-    expires: { type: Date, expires: 120, default: Date.now }
+    id: {type: Types.ObjectId, required: true},
+    name: {type: String, required: true},
+    category: {type: String, required: true},
+    dateStart: {type: Date, required: true},
+    dateEnd: {type: Date, required: true},
+    priority: {type: String, required: true, ref: 'Priority'},
+    description: { type: String, required: true }
 })
 
-export default model('UserTemp', UserTemp)*/
+export default model('Note', Note)

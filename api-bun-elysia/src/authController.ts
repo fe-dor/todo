@@ -11,6 +11,7 @@ import.meta.require
 import {Types} from "mongoose";
 import {Elysia} from "elysia";
 import ElysiaTypeOptions from "elysia/dist/index-59i0HOI0";
+import Categories from "./models/Categories";
 
 const gmail_user = Bun.env.GMAIL_USER
 const secret = Bun.env.JWT_SECRET;
@@ -137,6 +138,11 @@ class AuthController {
             })
             await user.save()
             await deleteUserTempById(candidate._id.toString())
+            const categories = new Categories({
+                id: user._id,
+                categories: ["All"]
+            })
+            await categories.save()
             return user
         } catch (e) {
             console.log(e);
@@ -169,25 +175,6 @@ class AuthController {
             })
         }
     }
-
-    /*async getData(req: any, res: { json: (arg0: string) => void; }) {
-        try {
-            const userRole = new Role()
-            const adminRole = new Role({value: "ADMIN"})
-            const userAdmin = new User({
-                email: "tvoya.mama@gmail.com",
-                username: "tvoya_mama",
-                password: "fat123456",
-                roles: [userRole.value]
-            });
-            /!*await userRole.save()
-            await adminRole.save()*!/
-            await userAdmin.save()
-            res.json("server work")
-        } catch (e) {
-
-        }
-    }*/
 }
 
 export default new AuthController()

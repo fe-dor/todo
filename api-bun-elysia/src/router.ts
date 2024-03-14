@@ -104,7 +104,7 @@ router.post(
             code: t.String({
                 minLength: 12,
                 maxLength: 12,
-                error: "473"
+                error: "474"
             })
         })
     }
@@ -135,6 +135,29 @@ router.post(
     }
 }
 )
+
+.post('/photo', async ({bearer, jwt2, set, body}) => {
+    const profile = await jwt2.verify(bearer)
+
+    if (!profile) {
+        set.status = 401;
+        return 'Unauthorized';
+    }
+
+    const {id} = profile
+
+    return controllerProfile.updatePhoto(id, body)
+}, {
+    body : t.Object({
+        photo: t.String({
+            error: "473"
+        })
+    })
+})
+
+.post('/info', () => {
+    return controllerProfile.info()
+})
 
 /*router.get('/data', controllerAuth.getData)*/
 

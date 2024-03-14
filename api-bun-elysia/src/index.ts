@@ -67,6 +67,10 @@ app.onError(({ code, error, set }) => {
                 break
             }
             case '473': {
+                message = 'Photo incorrect format'
+                break
+            }
+            case '474': {
                 message = 'Auth code incorrect format'
                 break
             }

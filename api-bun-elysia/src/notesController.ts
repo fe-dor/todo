@@ -1,0 +1,7 @@
+
+
+class NotesController {
+    async getNotes() {
+        
+    }
+}

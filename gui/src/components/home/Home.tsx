@@ -10,8 +10,8 @@ import {useNavigate} from "react-router-dom";
 
 export default function Home(){
 
-    const [name, setName] = useState("");
     const navigate = useNavigate();
+    const [name, setName] = useState("");
     const [userPhoto, setUserPhoto] = useState("");
 
     useEffect(() => {
