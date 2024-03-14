@@ -13,7 +13,7 @@ export default function Profile(){
     const navigate = useNavigate();
     const [userPhoto, setUserPhoto] = useState("");
 
-    /*useEffect(() => {
+    useEffect(() => {
         axios.get("http://localhost:5000/profile", {
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('SavedToken'),
@@ -33,7 +33,7 @@ export default function Profile(){
             console.error('error on getting profile from server:', error);
             navigate('/sign-in')
         })
-    }, []); // Пустой массив зависимостей гарантирует, что эффект будет вызван только один раз*/
+    }, []); // Пустой массив зависимостей гарантирует, что эффект будет вызван только один раз
 
     function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
         if (event.target.files != null) { /* empty */
@@ -64,13 +64,20 @@ export default function Profile(){
             </div>
             <div className={styles.form}>
                 <p className={styles.textForm}>Username</p>
-                <input className={styles.input}
-                       type="text"
-                       id="username"
-                       placeholder={name}
-                       value={newName}
-                       onChange={(e) => setNewName(e.target.value)}
-                />
+                <div className={styles.inputDiv}>
+                    <input className={styles.input}
+                           type="text"
+                           id="username"
+                           placeholder={name}
+                           value={newName}
+                           onChange={(e) => setNewName(e.target.value)}
+                    />
+                    <svg className={styles.inputIcon} width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M3.7415 9.26925L9.65767 3.35309L8.83283 2.52825L2.91667 8.44442V9.26925H3.7415ZM4.22508 10.4359H1.75V7.96084L8.42042 1.29042C8.52981 1.18106 8.67815 1.11963 8.83283 1.11963C8.98751 1.11963 9.13586 1.18106 9.24525 1.29042L10.8955 2.94067C11.0049 3.05006 11.0663 3.19841 11.0663 3.35309C11.0663 3.50777 11.0049 3.65611 10.8955 3.7655L4.22508 10.4359ZM1.75 11.6026H12.25V12.7693H1.75V11.6026Z"
+                            fill="#757575"/>
+                    </svg>
+                </div>
                 <p className={styles.textForm}>Email</p>
                 <input className={styles.input}
                        type="text"
@@ -90,6 +97,7 @@ type MyProps = {
     // using `interface` is also ok
     class: string;
 };
+
 function ProfileLeafHead(props: MyProps) {
     return (
         <div className={props.class}>

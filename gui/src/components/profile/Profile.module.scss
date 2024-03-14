@@ -12,6 +12,7 @@
 }
 
 .form {
+  position: relative;
   box-sizing: border-box;
   padding-right: 46px;
   padding-left: 36px;
@@ -23,6 +24,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.inputDiv {
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+}
+
+.inputIcon {
+  position: absolute;
+  right: 22px;
+  top: 18px;
+
 }
 
 .input {
@@ -171,6 +185,19 @@
   @extend .leaf;
   bottom: 196px;
   right: 0;
+}
+
+@include lg {
+  .logOut:hover {
+    background-color: rgba(255, 87, 87, 0.90);
+  }
+  .logOut:active {
+    background-color: rgba(255, 87, 87, 1);;
+  }
+
+  .input:hover {
+    filter: brightness(93%);
+  }
 }
 
 @include sm {
