@@ -2,6 +2,6 @@
 
 class NotesController {
     async getNotes() {
-        
+
     }
 }
