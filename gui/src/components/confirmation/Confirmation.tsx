@@ -23,14 +23,11 @@ export default function Confirmation() {
             axios.post("http://localhost:5000/confirmation", {
                 email: email,
                 code: code
+            }, {
+                withCredentials: true
             }).then((response) => {
                 console.log(response)
                 if (response.status == 200) {
-                    const {token} = response.data
-                    //console.log(token)
-                    localStorage.setItem("SavedToken", token);
-                    // Установка JWT в заголовки axios для последующих запросов
-                    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
                     navigate('/home')
                 }
             }).catch(() => {

@@ -17,7 +17,7 @@ router.post(
     '/registration',
     ({body, set, request}) => {
         const response = controllerAuth.registration(body)
-        set.headers["Access-Control-Allow-Origin"] = client_url
+        //set.headers["Access-Control-Allow-Origin"] = client_url
         return response
     }, {
         body : t.Object({
@@ -57,14 +57,14 @@ router.post(
         return answer
     }
     const token = await jwt2.sign({"id": answer._id.toString()})
-    console.log(secretJwt)
-    console.log(token)
+    /*console.log(secretJwt)
+    console.log(token)*/
 
-    /*setCookie('auth', token, { //
-        httpOnly: false,
+    setCookie('auth', token, { //
+        httpOnly: true,
         maxAge: 7 * 86400
-    });*/
-    return {"token" : token}
+    });
+    return "Authorization successful"
 }, {
     body : t.Object({
         email: t.String({
@@ -80,21 +80,21 @@ router.post(
 })
 
 .post('/confirmation',
-    async ({body, jwt2}) => {
+    async ({body, jwt2, setCookie}) => {
         const answer = await controllerAuth.confirmation(body)
         if (answer instanceof Response){
             return answer
         }
 
         const token = await jwt2.sign({"id": answer._id.toString()})
-        console.log(secretJwt)
-        console.log(token)
+        /*console.log(secretJwt)
+        console.log(token)*/
 
-        /*setCookie('auth', token, { //
+        setCookie('auth', token, { //
             httpOnly: false,
             maxAge: 7 * 86400
-        });*/
-        return {"token" : token}
+        });
+        return "Confirmation Successful"
     }, {
         body : t.Object({
             email: t.String({
@@ -111,8 +111,9 @@ router.post(
 )
 
 .use(bearer())
-.get('/profile', async ({ bearer, jwt2, set }) => {
-    const profile = await jwt2.verify(bearer)
+.get('/profile', async ({ jwt2, set , cookie: { auth }}) => {
+    //const profile = await jwt2.verify(bearer)
+    const profile = await jwt2.verify(auth)
 
     if (!profile) {
         set.status = 401;
@@ -122,22 +123,11 @@ router.post(
     const {id} = profile
 
     return controllerProfile.profile(id);
-}, {
-    beforeHandle({ bearer, set }) {
-        if (!bearer) {
-            set.status = 400
-            set.headers[
-                'WWW-Authenticate'
-                ] = `Bearer realm='sign', error="invalid_request"`
-
-            return 'Unauthorized'
-        }
-    }
 }
 )
 
-.post('/photo', async ({bearer, jwt2, set, body}) => {
-    const profile = await jwt2.verify(bearer)
+.post('/photo', async ({cookie: { auth }, jwt2, set, body}) => {
+    const profile = await jwt2.verify(auth)
 
     if (!profile) {
         set.status = 401;
@@ -153,6 +143,14 @@ router.post(
             error: "473"
         })
     })
+})
+
+.get('/logout', async ({setCookie}) => {
+    setCookie('auth', "", { //
+        httpOnly: true,
+        maxAge: 7 * 86400
+    });
+    return "Logout successful"
 })
 
 .post('/info', () => {

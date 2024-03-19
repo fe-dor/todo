@@ -16,9 +16,7 @@ export default function Home(){
 
     useEffect(() => {
         axios.get("http://localhost:5000/profile", {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('SavedToken'),
-            }
+            withCredentials: true
         } ).then((response) => { //TODO: env
             if (response.status == 200){
                 const { username, photo } = response.data

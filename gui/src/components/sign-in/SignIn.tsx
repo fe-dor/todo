@@ -20,18 +20,10 @@ export default function SignIn(){
                 email: email,
                 password: password
             }, {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
                 withCredentials: true
             });
 
             if (response.status == 200) {
-                const {token} = response.data
-                //console.log(token)
-                localStorage.setItem("SavedToken", token);
-                // Установка JWT в заголовки axios для последующих запросов
-                axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
                 navigate('/home')
             }
 
@@ -104,27 +96,6 @@ export default function SignIn(){
                 <SignIconLeaf class={styles.iconLeafUp}/>
                 <SignIconLeaf class={styles.iconLeafDown}/>
             </div>
-
-
-            {/*<form onSubmit={handleSubmit}>
-                <label htmlFor="username">Username:</label>
-                <input
-                    type="text"
-                    id="username"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <br/>
-                <label htmlFor="password">Password:</label>
-                <input
-                    type="password"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <br/>
-                <input type="submit" value="Submit"/>
-            </form>*/}
         </>
     )
 }

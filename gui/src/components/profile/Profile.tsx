@@ -17,9 +17,7 @@ export default function Profile(){
 
     useEffect(() => {
         axios.get("http://localhost:5000/profile", {
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('SavedToken'),
-            }
+            withCredentials: true
         } ).then((response) => { //TODO: env
             if (response.status == 200){
                 const { username, photo, email } = response.data
@@ -43,9 +41,7 @@ export default function Profile(){
                 {
                     'photo': newUserPhoto
                 },{
-                    headers: {
-                        'Authorization': 'Bearer ' + localStorage.getItem('SavedToken'),
-                    }
+                    withCredentials: true
                 },).then((response) => {
                 if (response.status != 200) {
                     alert(response.statusText)
@@ -75,9 +71,13 @@ export default function Profile(){
         }
     }
 
-    function logOut() {
-        localStorage.removeItem('SavedToken');
-        navigate('/sign-in')
+    async function logOut() {
+        const response = await axios.get("http://localhost:5000/logout", {
+            withCredentials: true
+        })
+        if (response.status == 200) {
+            navigate('/sign-in')
+        }
     }
 
     return (
