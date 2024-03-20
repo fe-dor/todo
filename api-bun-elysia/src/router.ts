@@ -6,7 +6,6 @@ import controllerProfile from './profileController';
 
 import {jwt} from "@elysiajs/jwt";
 import {cookie} from "@elysiajs/cookie";
-import { bearer } from '@elysiajs/bearer'
 import user from "./models/User";
 const secretJwt: string = typeof Bun.env.JWT_CODE === 'string' ? Bun.env.JWT_CODE : '';
 const client_url: string = typeof Bun.env.CLIENT_URL === 'string' ? Bun.env.CLIENT_URL : 'http://localhost:5173';
@@ -16,9 +15,7 @@ const client_url: string = typeof Bun.env.CLIENT_URL === 'string' ? Bun.env.CLIE
 router.post(
     '/registration',
     ({body, set, request}) => {
-        const response = controllerAuth.registration(body)
-        //set.headers["Access-Control-Allow-Origin"] = client_url
-        return response
+        return  controllerAuth.registration(body)
     }, {
         body : t.Object({
             username: t.String({
@@ -110,7 +107,6 @@ router.post(
     }
 )
 
-.use(bearer())
 .get('/profile', async ({ jwt2, set , cookie: { auth }}) => {
     //const profile = await jwt2.verify(bearer)
     const profile = await jwt2.verify(auth)
@@ -151,6 +147,19 @@ router.post(
         maxAge: 7 * 86400
     });
     return "Logout successful"
+})
+
+.get('/categories', async ({ jwt2, set, cookie: { auth } }) => {
+    const profile = await jwt2.verify(auth)
+
+    if (!profile) {
+        set.status = 401;
+        return 'Unauthorized';
+    }
+
+    const {id} = profile
+
+    return controllerProfile.getCategories(id)
 })
 
 .post('/info', () => {

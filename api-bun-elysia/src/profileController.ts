@@ -1,6 +1,7 @@
 import User from "./models/User";
 import Priority from "./models/Priority";
 import Note from "./models/Note";
+import Categories from "./models/Categories";
 
 
 
@@ -44,6 +45,21 @@ class ProfileController {
             return "Profile photo updated successfully"
         } catch (e) {
             return new Response('Photo update error', {
+                status: 400
+            })
+        }
+    }
+
+    async getCategories(id: string | number) {
+        try {
+            const obj = await Categories.find({
+                userId: id
+            }).exec()
+            console.log(id)
+            console.log(obj[0])
+            return obj[0].categories
+        } catch (e) {
+            return new Response('Can\'t get categories', {
                 status: 400
             })
         }

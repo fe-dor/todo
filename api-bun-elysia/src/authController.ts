@@ -96,16 +96,6 @@ class AuthController {
             return new Response("Temporary user created successfully", {
                 status: 200
             })
-
-            /*const userRole  = await Role.findOne({value: "USER"})
-            const user = new User({
-                email,
-                username,
-                password: hashPassword,
-                roles: [userRole !== null && typeof userRole.value === 'string' ? userRole.value : 'USER']
-            })*/
-
-
         } catch (e) {
             console.log(e);
             return new Response('Registration error', {
@@ -139,8 +129,12 @@ class AuthController {
             await user.save()
             await deleteUserTempById(candidate._id.toString())
             const categories = new Categories({
-                id: user._id,
-                categories: ["All"]
+                userId: user._id,
+                categories: [{
+                    color: '#B4C4FF',
+                    name: 'All',
+                    icon: 0
+                }]
             })
             await categories.save()
             return user

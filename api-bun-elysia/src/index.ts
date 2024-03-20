@@ -23,17 +23,6 @@ app.use(swagger({
     path: '/swagger'
 }))
 
-/*app.onAfterHandle(({ request, set }) => {
-    // Only process CORS requests
-    if (request.method !== "OPTIONS") return;
-
-    const allowHeader = set.headers["Access-Control-Allow-Headers"];
-    if (allowHeader === "*") {
-        set.headers["Access-Control-Allow-Headers"] =
-            request.headers.get("Access-Control-Request-Headers") ?? "";
-    }
-}).use(cors())*/
-
 //added to pass cors...
 app.onAfterHandle(({ request, set }) => {
     set.headers["Access-Control-Allow-Origin"] = client_url
