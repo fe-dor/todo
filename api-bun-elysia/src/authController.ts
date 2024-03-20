@@ -133,7 +133,7 @@ class AuthController {
                 categories: [{
                     color: '#B4C4FF',
                     name: 'All',
-                    icon: 0
+                    icon: 'Package'
                 }]
             })
             await categories.save()

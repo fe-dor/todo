@@ -68,7 +68,7 @@ enum IconEnum {
 type Group = {
   color: string;
   name: string;
-  icon: number;
+  icon: string;
   _id: string;
 }
 
@@ -90,9 +90,9 @@ function GroupElem(props: Group) {
   )
 }
 
-function Icon(props: {icon: number, color: string}) {
+function Icon(props: {icon: string, color: string}) {
   switch (props.icon) {
-      case 0:
+      case 'Package':
       return (
           <svg width="11" height="13" viewBox="0 0 11 13" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path fillRule="evenodd" clipRule="evenodd"
@@ -100,7 +100,7 @@ function Icon(props: {icon: number, color: string}) {
                   fill={props.color}/>
           </svg>
       );
-    case 1:
+    case 'Car':
       return (
           <svg width="16" height="11" viewBox="0 0 16 11" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
@@ -108,7 +108,7 @@ function Icon(props: {icon: number, color: string}) {
                 fill={props.color}/>
           </svg>
       );
-    case 2:
+    case 'Dumbbell':
       return (
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path
