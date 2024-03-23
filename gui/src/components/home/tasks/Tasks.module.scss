@@ -3,6 +3,7 @@
 .container {
   margin: auto;
   display: flex;
+  flex-direction: column;
   max-width: 1200px;
   box-sizing: border-box;
 }
@@ -15,5 +16,6 @@
   padding-left: 29px;
   padding-bottom: 24px;
   margin: 0;
-  width: 100%;
 }
+
+

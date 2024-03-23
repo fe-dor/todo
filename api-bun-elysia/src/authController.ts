@@ -11,7 +11,6 @@ import.meta.require
 import {Types} from "mongoose";
 import {Elysia} from "elysia";
 import ElysiaTypeOptions from "elysia/dist/index-59i0HOI0";
-import Categories from "./models/Categories";
 
 const gmail_user = Bun.env.GMAIL_USER
 const secret = Bun.env.JWT_SECRET;
@@ -124,11 +123,16 @@ class AuthController {
                 username: candidate.username,
                 password: candidate.password,
                 photo: candidate.photo,
-                roles: ['USER']
+                roles: ['USER'],
+                groups: {
+                    color: '#B4C4FF',
+                    name: 'All',
+                    icon: 'Package'
+                }
             })
             await user.save()
             await deleteUserTempById(candidate._id.toString())
-            const categories = new Categories({
+            /*const categories = new Categories({
                 userId: user._id,
                 categories: [{
                     color: '#B4C4FF',
@@ -136,7 +140,7 @@ class AuthController {
                     icon: 'Package'
                 }]
             })
-            await categories.save()
+            await categories.save()*/
             return user
         } catch (e) {
             console.log(e);

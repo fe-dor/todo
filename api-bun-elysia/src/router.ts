@@ -118,7 +118,7 @@ router.post(
 
     const {id} = profile
 
-    return controllerProfile.profile(id);
+    return controllerProfile.getProfile(id);
 }
 )
 
@@ -149,22 +149,28 @@ router.post(
     return "Logout successful"
 })
 
-.get('/categories', async ({ jwt2, set, cookie: { auth } }) => {
+.get('/home', async ({ jwt2, set, cookie: { auth } }) => {
     const profile = await jwt2.verify(auth)
-
     if (!profile) {
         set.status = 401;
         return 'Unauthorized';
     }
-
     const {id} = profile
-
-    return controllerProfile.getCategories(id)
+    return controllerProfile.getHome(id)
 })
 
-.post('/info', () => {
+.get('/groups', async ({jwt2, set, cookie: { auth }}) => {
+    const profile = await jwt2.verify(auth)
+    if (!profile) {
+        set.status = 401;
+        return 'Unauthorized';
+    }
+    const {id} = profile
+    return controllerProfile.getGroups(id)
+})
+/*.post('/info', () => {
     return controllerProfile.info()
-})
+})*/
 
 /*router.get('/data', controllerAuth.getData)*/
 

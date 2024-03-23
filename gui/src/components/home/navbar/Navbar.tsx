@@ -6,15 +6,12 @@ import man from "../../../assets/man.png";
 
 
 export default function Navbar( ){
-
-  const {name, userPhoto} = useContext(HomeContext);
-
-  console.log(userPhoto)
+  const {userName, userPhoto} = useContext(HomeContext);
 
   return (
     <div className={styles.container}>
       <div className={styles.helloContainer}>
-          <h1 className={styles.text1}>Hello {name},</h1>
+          <h1 className={styles.text1}>Hello {userName},</h1>
           <h2 className={styles.text2}>You have work today</h2>
       </div>
         <Link to="/profile">

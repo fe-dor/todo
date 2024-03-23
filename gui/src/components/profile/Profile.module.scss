@@ -75,8 +75,8 @@
   border: 0;
   padding: 15px 36px;
   height: 47px;
-  margin-top: 12px;
-  margin-bottom: 169px;
+  margin-top: 37px;
+  margin-bottom: 37px;
 
   background: #ff5757;
 
@@ -228,6 +228,95 @@
   cursor: pointer;
 }
 
+.groups {
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto;
+
+  max-width: 1200px;
+  width: 100%;
+
+  display: grid;
+  justify-items: center; /* Выравнивание элементов по горизонтали по центру */
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  row-gap: 16px;
+}
+
+.groupButton {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+
+  max-width: 500px;
+
+  border-radius: 8px;
+  border: 0;
+  padding: 13px 21.5px 12px 21px;
+  height: 51px;
+  //background-color: black;
+
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 11px;
+  color: black;
+
+  cursor: pointer;
+}
+
+.iconGroup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 24px;
+  height: 24px;
+
+  border-radius: 50%;
+
+  background-color: #FFFFFF;
+}
+
+.nameGroup {
+  margin: auto 14px;
+
+  overflow: hidden; /* Скрывает текст, выходящий за границы элемента */
+  white-space: nowrap; /* Предотвращает перенос текста на новую строку */
+  text-overflow: ellipsis; /* Добавляет многоточие в конце текста, если он не влазит */
+  text-align: left;
+}
+
+.editIconGroup {
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: auto;
+}
+
+.blockPlus {
+  display: flex;
+  width: 100%;
+  box-sizing: border-box;
+  max-width: 500px;
+  margin-top: 16px;
+
+  border-radius: 8px;
+  border: 1px solid #757575;  padding: 13px 21.5px 12px 21px;
+  height: 51px;
+  background-color: #FFFFFF;
+
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 11px;
+  color: black;
+
+  cursor: pointer;
+}
+
+.plus {
+  margin-right: auto;
+  margin-left: auto;
+}
+
 @include lg {
   .logOut:hover {
     background-color: rgba(255, 87, 87, 0.90);
@@ -240,6 +329,21 @@
   }
   .botLeaf {
     display: none;
+  }
+  .groupButton:hover {
+    filter: brightness(93%);
+  }
+
+  .groupButton:active {
+    filter: brightness(100%);
+  }
+
+  .blockPlus:hover {
+    filter: brightness(93%);
+  }
+
+  .blockPlus:active {
+    filter: brightness(100%);
   }
 }
 

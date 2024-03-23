@@ -1,8 +1,43 @@
 import styles from "./CreateTask.module.scss"
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
+import Select, {ActionMeta, SingleValue} from 'react-select';
+
+const options = [{'All': 'All'}, 'op1', 'op2'];
 
 export default function CreateTask(){
+
+    const navigate = useNavigate();
     const [taskName, setTaskName] = useState("");
+    const [userGroups, setUserGroups] = useState([""]);
+    const [selectedGroup, setSelectedGroup] = useState("All");
+
+    const handleChange = (newValue: SingleValue<string>) => {
+        if (newValue !== null) {
+            setSelectedGroup(newValue);
+        }
+    };
+
+
+    useEffect(() => {
+        axios.get("http://localhost:5000/groups", {
+            withCredentials: true
+        } ).then((response) => { //TODO: env
+            if (response.status == 200){
+                const { groups } = response.data
+                setUserGroups(groups)
+                return
+            } else {
+                console.log("error on getting groups from server")
+                navigate('/sign-in')
+            }
+        }).catch((error) => {
+            console.error('error on getting groups from server:', error);
+            navigate('/sign-in')
+        })
+    }, []);
+
 
 
     return (
@@ -31,6 +66,16 @@ export default function CreateTask(){
                     </div>
                     <div className={styles.block}>
                         <h1 className={styles.textHead}>Category</h1>
+                        <Select
+                            defaultValue={options[0]}
+                            onChange={handleChange}
+                            options={options}
+                        />
+                        {/*<select value={selectedGroup} onChange={handleChange} className={styles.select}>
+                            {userGroups?.map((item) => (
+                                <option className={styles.option} value={item}>{item}</option>
+                            ))}
+                        </select>*/}
                     </div>
                 </div>
 

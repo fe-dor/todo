@@ -1,12 +1,13 @@
 import User from "./models/User";
-import Priority from "./models/Priority";
-import Note from "./models/Note";
-import Categories from "./models/Categories";
 
-
-
+type Group = {
+    color: string,
+    name: string,
+    icon: string
+}
 class ProfileController {
-    async profile(id: string | number) {
+    //категории, имя, почта, фото
+    async getProfile(id: string | number) {
         try {
             const user = await User.findById(id);
             if (!user) {
@@ -14,10 +15,15 @@ class ProfileController {
                     status: 400
                 })
             }
+            const objects: Group[] = []
+            for (const i of user.groups) {
+                objects.push({color: i.color, name: i.name, icon: i.icon})
+            }
             return {
                 "email" : user.email,
                 "username": user.username,
-                "photo": user.photo
+                "photo": user.photo,
+                "groups": objects
             }
         } catch (e) {
             return new Response('Profile error', {
@@ -50,27 +56,44 @@ class ProfileController {
         }
     }
 
-    async getCategories(id: string | number) {
+
+    //Все кроме пароля
+    async getHome(id: string | number) {
         try {
-            const obj = await Categories.find({
-                userId: id
-            }).exec()
-            console.log(id)
-            console.log(obj[0])
-            return obj[0].categories
+            const user = await User.findById(id);
+            if (!user) {
+                return new Response("No user found with this id", {
+                    status: 400
+                })
+            }
+            return user
         } catch (e) {
-            return new Response('Can\'t get categories', {
+            return new Response('Can\'t get home', {
                 status: 400
             })
         }
     }
 
-    async info() {
-        const note = new Note({
-
-        })
-
-        return "cool"
+    async getGroups(id: string | number) {
+        try {
+            const user = await User.findById(id);
+            if (!user) {
+                return new Response("No user found with this id", {
+                    status: 400
+                })
+            }
+            const objects: string[] = []
+            for (const i of user.groups) {
+                objects.push(i.name)
+            }
+            return {
+                "groups": objects
+            }
+        } catch (e) {
+            return new Response('Can\'t get groups', {
+                status: 400
+            })
+        }
     }
 
 }

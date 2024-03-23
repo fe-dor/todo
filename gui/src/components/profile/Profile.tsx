@@ -4,8 +4,14 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import man from "../../assets/man.png";
 import ProfileLeaf from "../profileLeaf/ProfileLeaf.tsx";
+import {Icon} from "../home/groups/Groups.tsx";
 
-export default function Profile(){
+type Group = {
+    color: string,
+    name: string,
+    icon: string
+}
+export default function Profile() {
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -14,16 +20,19 @@ export default function Profile(){
     const navigate = useNavigate();
     const [userPhoto, setUserPhoto] = useState("");
     const [newUserPhoto, setNewUserPhoto] = useState("");
+    const [groups, setGroups] = useState(new Array<Group>);
 
     useEffect(() => {
         axios.get("http://localhost:5000/profile", {
             withCredentials: true
-        } ).then((response) => { //TODO: env
-            if (response.status == 200){
-                const { username, photo, email } = response.data
+        }).then((response) => { //TODO: env
+            if (response.status == 200) {
+                const {username, photo, email, groups} = response.data
                 setName(username)
                 setEmail(email)
                 setUserPhoto(photo)
+                setGroups(groups)
+                console.log(response.data)
                 return
             } else {
                 console.log("error on getting profile from server")
@@ -33,7 +42,7 @@ export default function Profile(){
             console.error('error on getting profile from server:', error);
             navigate('/sign-in')
         })
-    }); // Пустой массив зависимостей гарантирует, что эффект будет вызван только один раз
+    }, []); // Пустой массив зависимостей гарантирует, что эффект будет вызван только один раз
 
     useEffect(() => {
         if (newUserPhoto != '') {
@@ -119,7 +128,8 @@ export default function Profile(){
                            value={newName}
                            onChange={(e) => setNewName(e.target.value)}
                     />
-                    <svg className={styles.inputIcon} width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <svg className={styles.inputIcon} width="14" height="14" viewBox="0 0 14 14" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M3.7415 9.26925L9.65767 3.35309L8.83283 2.52825L2.91667 8.44442V9.26925H3.7415ZM4.22508 10.4359H1.75V7.96084L8.42042 1.29042C8.52981 1.18106 8.67815 1.11963 8.83283 1.11963C8.98751 1.11963 9.13586 1.18106 9.24525 1.29042L10.8955 2.94067C11.0049 3.05006 11.0663 3.19841 11.0663 3.35309C11.0663 3.50777 11.0049 3.65611 10.8955 3.7655L4.22508 10.4359ZM1.75 11.6026H12.25V12.7693H1.75V11.6026Z"
                             fill="#757575"/>
@@ -141,13 +151,34 @@ export default function Profile(){
                             fill="#757575"/>
                     </svg>
                 </div>
+                <p className={styles.textForm}>Categories</p>
+                <div className={styles.groups}>
+                    {groups?.map((item) => (
+                        <GroupElem {...item} />
+                    ))}
+                </div>
+                <PlusButton />
                 <button className={styles.logOut} onClick={logOut}>Log out</button>
             </div>
+
             <ProfileLeaf class={styles.botLeaf}/>
         </div>
     )
 }
 
+function GroupElem(props: Group) {
+    return (
+        <button className={styles.groupButton} style={{backgroundColor: props.color}}>
+            <div className={styles.iconGroup}><Icon icon={props.icon} color={props.color}/></div>
+            <span className={styles.nameGroup}>{props.name}</span>
+            <svg className={styles.editIconGroup} width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                    d="M2.5605 10.4781L10.167 2.87159L9.1065 1.81109L1.5 9.41759V10.4781H2.5605ZM3.18225 11.9781H0V8.79584L8.57625 0.21959C8.7169 0.0789865 8.90763 0 9.1065 0C9.30537 0 9.4961 0.0789865 9.63675 0.21959L11.7585 2.34134C11.8991 2.48199 11.9781 2.67272 11.9781 2.87159C11.9781 3.07046 11.8991 3.26119 11.7585 3.40184L3.18225 11.9781ZM0 13.4781H13.5V14.9781H0V13.4781Z"
+                    fill="#757575"/>
+            </svg>
+        </button>
+    )
+}
 
 type MyProps = {
     // using `interface` is also ok
@@ -179,5 +210,18 @@ function ProfileLeafHead(props: MyProps) {
                 </defs>
             </svg>
         </div>
+    )
+}
+
+function PlusButton() {
+    return(
+        <button className={styles.blockPlus}>
+            <div className={styles.plus}>
+                <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="1" height="21" transform="translate(10)" fill="#757575"/>
+                    <rect width="1" height="21" transform="matrix(0 -1 1 0 0 11)" fill="#757575"/>
+                </svg>
+            </div>
+        </button>
     )
 }

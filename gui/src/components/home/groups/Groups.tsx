@@ -1,84 +1,24 @@
 import styles from "./Groups.module.scss"
-import {useEffect, useState} from "react";
-import axios from "axios";
-import {useNavigate} from "react-router-dom";
+import {useContext} from "react";
+import {Group, HomeContext} from "../HomeContext.ts";
 
 
 export default function Groups() {
-
-    const [groups, setGroups] = useState<Group[]>();
-    const navigate = useNavigate();
-
-    /*const groups: Group[] = [
-        {color: ColorEnum.Blue, name: 'Project', count: 5, icon: IconEnum.Package.valueOf()},
-        {color: ColorEnum.LightGreen, name: 'Work', count: 3, icon: IconEnum.Car.valueOf()},
-        {color: ColorEnum.Purple, name: '@WWWWWWW@qq', count: 2, icon: IconEnum.Dumbbell.valueOf()},
-    ]*/
-
-    useEffect(() => {
-        axios.get("http://localhost:5000/categories", {
-            withCredentials: true
-        } ).then((response) => { //TODO: env
-            if (response.status == 200){
-                const objects: Group[] = []
-                for (let i = 0; i < response.data.length; i++) {
-                    objects.push(response.data[i])
-                }
-                console.log(objects)
-                setGroups(objects)
-            } else {
-                console.log("auth error")
-                navigate('/sign-in')
-            }
-        }).catch((error) => {
-            console.error('error on getting profile from server:', error);
-            navigate('/sign-in')
-        })
-    }, []);
-
+    const {userGroups} = useContext(HomeContext);
     return (
     <>
       <div className={styles.container}>
         <div className={styles.table}>
-            {groups?.map((item) => (
+            {userGroups?.map((item) => (
                 <GroupElem {...item} />
             ))}
-            <PlusButton />
         </div>
       </div>
     </>
   )
 }
 
-/*enum ColorEnum {
-  Blue = '#B4C4FF',
-  LightGreen = '#CFF3E9',
-  Purple = '#c191ff',
-  Beige = '#EDBE7D',
-  // добавьте другие цвета по мере необходимости
-}
-
-enum IconEnum {
-  Package,
-  Car,
-  Dumbbell,
-  Bag
-}*/
-
-type Group = {
-  color: string;
-  name: string;
-  icon: string;
-  _id: string;
-}
-
-
-
-/*TODO: анимация наведения и нажатия*/
 function GroupElem(props: Group) {
-
-    //const serializedGroup = JSON.stringify(props);
-
     return (
       <button className={styles.block} style={{backgroundColor: props.color}}>
         <div className={styles.icon}><Icon icon={props.icon} color={props.color}/></div>
@@ -90,7 +30,7 @@ function GroupElem(props: Group) {
   )
 }
 
-function Icon(props: {icon: string, color: string}) {
+export function Icon(props: {icon: string, color: string}) {
   switch (props.icon) {
       case 'Package':
       return (
@@ -125,17 +65,4 @@ function Icon(props: {icon: string, color: string}) {
           </svg>
       );
   }
-}
-
-function PlusButton() {
-    return(
-        <button className={styles.blockPlus}>
-            <div className={styles.plus}>
-                <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="0.5" height="21" transform="translate(10)" fill="#9747ff"/>
-                    <rect width="0.5" height="21" transform="matrix(0 -1 1 0 0 11)" fill="#9747ff"/>
-                </svg>
-            </div>
-        </button>
-    )
 }
