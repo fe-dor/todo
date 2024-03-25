@@ -2,21 +2,54 @@ import styles from "./CreateTask.module.scss"
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
-import Select, {ActionMeta, SingleValue} from 'react-select';
+import Select from 'react-select';
 
-const options = [{'All': 'All'}, 'op1', 'op2'];
+interface Option {
+    label: string;
+    value: string;
+}
 
-export default function CreateTask(){
+const customStyles = {
+    control: (provided) => ({
+        ...provided,
+        /*background: 'transparent',
+        display: 'flex',
+        flexWrap: 'nowrap',
+        width: '7em',*/
+        borderRadius: '9px',
+        borderColor: 'rgba(0, 0, 0, 0.2)', // Установка цвета границы
+        boxShadow: 'none', // Отключение синего выделения при фокусе
+        '&:hover': {
+
+        },
+        '&:focus': {
+            borderColor: '#000', // Установка цвета границы при наведении
+            borderWidth: '2px',
+        },
+
+    }),
+    menu: (provided) => ({
+        ...provided,
+        background: 'transparent',
+        width: '4em',
+    }),
+};
+
+export default function CreateTask() {
 
     const navigate = useNavigate();
     const [taskName, setTaskName] = useState("");
-    const [userGroups, setUserGroups] = useState([""]);
-    const [selectedGroup, setSelectedGroup] = useState("All");
+    const [userGroups, setUserGroups] = useState(['']);
+    const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
 
-    const handleChange = (newValue: SingleValue<string>) => {
-        if (newValue !== null) {
-            setSelectedGroup(newValue);
-        }
+    const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
+    const options: Option[] = [
+        { label: 'Option 1', value: '1' },
+        { label: 'Option 2', value: '2' },
+        { label: 'Option 3', value: '3' },
+    ];
+    const handleChange = (selectedOptions: Option[]) => {
+        setSelectedOptions(selectedOptions);
     };
 
 
@@ -26,7 +59,8 @@ export default function CreateTask(){
         } ).then((response) => { //TODO: env
             if (response.status == 200){
                 const { groups } = response.data
-                setUserGroups(groups)
+                setUserGroups( groups)
+                console.log(groups)
                 return
             } else {
                 console.log("error on getting groups from server")
@@ -66,17 +100,15 @@ export default function CreateTask(){
                     </div>
                     <div className={styles.block}>
                         <h1 className={styles.textHead}>Category</h1>
-                        <Select
-                            defaultValue={options[0]}
-                            onChange={handleChange}
-                            options={options}
-                        />
-                        {/*<select value={selectedGroup} onChange={handleChange} className={styles.select}>
-                            {userGroups?.map((item) => (
-                                <option className={styles.option} value={item}>{item}</option>
-                            ))}
-                        </select>*/}
+                        <input className={styles.select} type="select" name="bday"/>
                     </div>
+
+                    <input className={styles.select} type="date" name="bday"/>
+                    <input className={styles.select} type="time" name="bday"/>
+                    <Select
+                        styles={customStyles}
+                        options={options}
+                    />
                 </div>
 
             </div>
