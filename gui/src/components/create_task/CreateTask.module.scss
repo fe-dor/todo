@@ -1,3 +1,5 @@
+@import "../../utils";
+
 .container {
   position: relative;
   max-width: 1200px;
@@ -45,6 +47,31 @@
   align-items: center;
 }
 
+.blockDateTime {
+  width: 100%;
+  max-width: 500px;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 34px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.categories {
+  width: 100%;
+  max-width: 500px;
+  position: relative;
+}
+
+.arrow {
+  position: absolute;
+  pointer-events: none;
+  top: 11px;
+  right: 14.5px;
+}
+
 .textHead {
   font-family: var(--font-family);
   font-weight: 500;
@@ -74,13 +101,22 @@
   color: #000;
 }
 
+.inputDesc {
+  @extend .input;
+  height: 100px;
+  resize: none;
+  overflow: hidden;
+  max-lines: 5;
+  padding: 14.5px;
+}
+
 .input::placeholder {
   color: rgba(0, 0, 0, 0.2);
 }
 
 .select {
   box-sizing: border-box;
-
+  appearance: none;
 
   height: 37px;
   width: 100%;
@@ -93,10 +129,46 @@
 
   border: 1.14px solid rgba(0, 0, 0, 0.2);
   border-radius: 9px;
+  background-color: #FFFFFF;
 
   font-family: var(--font-family);
   font-style: italic;
   font-weight: 500;
   font-size: 12px;
+  color: #000;
+}
+
+.priorityTable {
+  width: 100%;
+  max-width: 500px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 12px;
+}
+
+.priority {
+  box-sizing: border-box;
+  background-color: rgba(151, 71, 255, 0.3);
+  border-radius: 8px;
+  border-width: 0;
+  padding: 9px 10px;
+  width: 100%;
+  height: 30px;
+
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 10px;
+  color: #000;
+
+  text-align: center;
+}
+
+.priority:hover {
+  background-color: #9747ff;
+  color: #fff;
+}
+
+.priority:active {
+  background-color: rgba(151, 71, 255, 0.3);
   color: #000;
 }

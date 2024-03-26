@@ -10,15 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@mui/lab": "5.0.0-alpha.169",
+    "@mui/material": "^5.15.14",
     "@types/node": "^20.11.25",
     "axios": "^1.6.7",
     "buffer-image": "^1.0.0",
     "react": "^18.2.0",
     "react-cookie": "^7.1.0",
+    "react-datepicker": "^6.6.0",
+    "react-datepicker.css": "link:react-datepicker/dist/react-datepicker.css",
     "react-dom": "^18.2.0",
     "react-dropdown-select": "^4.11.2",
     "react-router-dom": "^6.22.1",
-    "react-select": "^5.8.0"
+    "react-select": "^5.8.0",
+    "react-time-picker": "^6.6.0"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",

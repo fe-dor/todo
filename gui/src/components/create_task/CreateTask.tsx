@@ -4,7 +4,8 @@ import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import Select from 'react-select';
 
-interface Option {
+
+/*interface Option {
     label: string;
     value: string;
 }
@@ -12,10 +13,10 @@ interface Option {
 const customStyles = {
     control: (provided) => ({
         ...provided,
-        /*background: 'transparent',
+        /!*background: 'transparent',
         display: 'flex',
         flexWrap: 'nowrap',
-        width: '7em',*/
+        width: '7em',*!/
         borderRadius: '9px',
         borderColor: 'rgba(0, 0, 0, 0.2)', // Установка цвета границы
         boxShadow: 'none', // Отключение синего выделения при фокусе
@@ -33,25 +34,19 @@ const customStyles = {
         background: 'transparent',
         width: '4em',
     }),
-};
+};*/
+
 
 export default function CreateTask() {
 
     const navigate = useNavigate();
     const [taskName, setTaskName] = useState("");
     const [userGroups, setUserGroups] = useState(['']);
-    const [selectedGroup, setSelectedGroup] = useState<string | null>(null);
-
-    const [selectedOptions, setSelectedOptions] = useState<Option[]>([]);
-    const options: Option[] = [
-        { label: 'Option 1', value: '1' },
-        { label: 'Option 2', value: '2' },
-        { label: 'Option 3', value: '3' },
-    ];
-    const handleChange = (selectedOptions: Option[]) => {
-        setSelectedOptions(selectedOptions);
-    };
-
+    const [selectedGroup, setSelectedGroup] = useState<string | null>("All");
+    const [date, setDate] = useState("");
+    const [time, setTime] = useState("");
+    const [priority, setPriority] = useState(0);
+    const [description, setDescription] = useState('');
 
     useEffect(() => {
         axios.get("http://localhost:5000/groups", {
@@ -70,9 +65,41 @@ export default function CreateTask() {
             console.error('error on getting groups from server:', error);
             navigate('/sign-in')
         })
+        const dateElems = new Date();
+        const elemDate = document.getElementById("dateField") as HTMLInputElement;
+        if (elemDate != null) {
+            const dateL = dateElems.toISOString().substring(0, 10)
+            elemDate.setAttribute('min', dateL)
+            setDate(dateL)
+        }
+        setTime(dateElems.toTimeString().substring(0,5));
     }, []);
-
-
+    function handleChangeTime (newTime: string, dateCheck: string) {
+        const dateL = new Date();
+        if (dateL.toISOString().substring(0, 10) === dateCheck) {
+            if (Number(newTime.substring(0, 2)) > dateL.getHours()) {
+                setTime(newTime)
+            }
+            else if (Number(newTime.substring(0, 2)) < dateL.getHours()) {
+                setTime(dateL.toTimeString().substring(0,5))
+            }
+            else {
+                if (Number(newTime.substring(3, 5)) > dateL.getMinutes()) {
+                    setTime(newTime)
+                }
+                else {
+                    setTime(dateL.toTimeString().substring(0,5))
+                }
+            }
+        }
+        else {
+            setTime(newTime)
+        }
+    }
+    function handleChangeDate (newDate: string) {
+        setDate(newDate)
+        handleChangeTime(time, newDate)
+    }
 
     return (
         <>
@@ -92,25 +119,79 @@ export default function CreateTask() {
                         <h1 className={styles.textHead}>Task Name</h1>
                         <input className={styles.input}
                                type="text"
-                               id="username"
+                               id="tash"
                                placeholder="Task Name"
+                               maxLength={30}
                                value={taskName}
                                onChange={(e) => setTaskName(e.target.value)}
                         />
                     </div>
                     <div className={styles.block}>
                         <h1 className={styles.textHead}>Category</h1>
-                        <input className={styles.select} type="select" name="bday"/>
+                        <div className={styles.categories}>
+                            <svg className={styles.arrow} width="17" height="16" viewBox="0 0 17 16" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12.5 6L8.5 10L4.5 6" stroke="#9747FF" strokeWidth="1.33333"
+                                      strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                            <select style={selectedGroup === null ? {color: 'rgba(0, 0, 0, 0.2)'} : {}} className={styles.select} onChange={(event) => {
+                                setSelectedGroup(event.target.value);
+                            }}>
+                                {userGroups?.map((item) => (
+                                    <option value={item}>{item}</option>
+                                ))}
+                            </select>
+                        </div>
                     </div>
-
-                    <input className={styles.select} type="date" name="bday"/>
-                    <input className={styles.select} type="time" name="bday"/>
-                    <Select
-                        styles={customStyles}
-                        options={options}
-                    />
+                    <div className={styles.blockDateTime}>
+                        <div className={styles.block}>
+                            <h1 className={styles.textHead}>Date</h1>
+                            <input onChange={(event) => {
+                                handleChangeDate(event.target.value)
+                            }} className={styles.select} id="dateField" type="date" value={date}/>
+                        </div>
+                        <div className={styles.block}>
+                            <h1 className={styles.textHead}>Time</h1>
+                            <input onChange={(event) => {
+                                handleChangeTime(event.target.value, date)
+                            }} className={styles.select} id="timeField" type="time" value={time}/>
+                        </div>
+                    </div>
+                    <div className={styles.block}>
+                        <h1 className={styles.textHead}>Priority</h1>
+                        <div className={styles.priorityTable}>
+                            <button onClick={() => {
+                                setPriority(0)
+                            }} className={styles.priority} style={priority === 0 ? {backgroundColor: "#9747ff", color: '#fff'} : {}}>
+                                Low
+                            </button>
+                            <button onClick={() => {
+                                setPriority(1)
+                            }} className={styles.priority}
+                                    style={priority === 1 ? {backgroundColor: "#9747ff", color: '#fff'} : {}}>
+                                Medium
+                            </button>
+                            <button onClick={() => {
+                                setPriority(2)
+                            }} className={styles.priority}
+                                    style={priority === 2 ? {backgroundColor: "#9747ff", color: '#fff'} : {}}>
+                                High
+                            </button>
+                        </div>
+                    </div>
+                    <div className={styles.block}>
+                        <h1 className={styles.textHead}>Description</h1>
+                        <textarea className={styles.inputDesc} placeholder="Description" onChange={(event) => {
+                            setDescription(event.target.value)
+                        }} maxLength={200}>
+                        </textarea>
+                    </div>
                 </div>
 
+                {/*<Select
+                    styles={customStyles}
+                    options={options}
+                />*/}
             </div>
         </>
     )
