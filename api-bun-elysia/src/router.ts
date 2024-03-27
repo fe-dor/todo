@@ -3,6 +3,7 @@ import Router, {t} from 'elysia';
 const router = new Router()
 import controllerAuth from './authController';
 import controllerProfile from './profileController';
+import taskController from "./taskController";
 
 import {jwt} from "@elysiajs/jwt";
 import {cookie} from "@elysiajs/cookie";
@@ -122,7 +123,7 @@ router.post(
 }
 )
 
-.post('/photo', async ({cookie: { auth }, jwt2, set, body}) => {
+.put('/photo', async ({cookie: { auth }, jwt2, set, body}) => {
     const profile = await jwt2.verify(auth)
 
     if (!profile) {
@@ -132,7 +133,7 @@ router.post(
 
     const {id} = profile
 
-    return controllerProfile.updatePhoto(id, body)
+    return controllerProfile.updatePhoto(id, body, set)
 }, {
     body : t.Object({
         photo: t.String({
@@ -167,6 +168,29 @@ router.post(
     }
     const {id} = profile
     return controllerProfile.getGroups(id)
+})
+
+.post('/create-task', async ({jwt2, set, cookie: { auth }, body}) => {
+    const profile = await jwt2.verify(auth)
+    if (!profile) {
+        set.status = 401;
+        return 'Unauthorized';
+    }
+    console.log("hi")
+    const {id} = profile
+    return taskController.createTask(id, body)
+}, {
+    body : t.Object({
+        name: t.String(),
+        group: t.String(),
+        date: t.String(),
+        localDay: t.String(),
+        localTime: t.String(),
+        priority: t.Number(),
+        description: t.String()
+    }, {
+        error: "473"
+    })
 })
 /*.post('/info', () => {
     return controllerProfile.info()

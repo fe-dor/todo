@@ -25,6 +25,7 @@ app.use(swagger({
 
 //added to pass cors...
 app.onAfterHandle(({ request, set }) => {
+    set.headers["Access-Control-Allow-Methods"] = 'PUT, POST, GET, DELETE, OPTIONS';
     set.headers["Access-Control-Allow-Origin"] = client_url
     // Only process CORS requests
     if (request.method !== "OPTIONS") return
@@ -34,10 +35,7 @@ app.onAfterHandle(({ request, set }) => {
         set.headers["Access-Control-Allow-Headers"] =
             request.headers.get("Access-Control-Request-Headers") ?? "";
     }
-})
-.use(cors())
-
-app.use(bearer())
+}).use(cors())
 
 app.onError(({ code, error, set }) => {
     if (code === 'VALIDATION') {

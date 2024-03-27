@@ -1,9 +1,15 @@
 import User from "./models/User";
+import {Types} from "mongoose";
 
 type Group = {
     color: string,
     name: string,
     icon: string
+}
+
+type GroupNameId = {
+    name: string,
+    id: Types.ObjectId | undefined
 }
 class ProfileController {
     //категории, имя, почта, фото
@@ -34,25 +40,10 @@ class ProfileController {
 
     async updatePhoto(id: string | number, body: {photo: string}) {
         try {
-            const user = await User.findById(id);
-            if (!user) {
-                return new Response("No user found with this id", {
-                    status: 400
-                })
-            }
-            const {photo} = body
-            if (photo !== undefined && photo !== null) {
-                user.photo = body.photo
-                user.save()
-            }
-            else {
-                return new Response("Photo is null or undefined", { status: 400})
-            }
+            await User.findOneAndUpdate({_id: id}, {photo: body.photo}).catch(error => {console.error('error',error);})
             return "Profile photo updated successfully"
         } catch (e) {
-            return new Response('Photo update error', {
-                status: 400
-            })
+            return new Response('Photo update error', {status: 400})
         }
     }
 
@@ -82,9 +73,9 @@ class ProfileController {
                     status: 400
                 })
             }
-            const objects: string[] = []
+            const objects: GroupNameId[] = []
             for (const i of user.groups) {
-                objects.push(i.name)
+                objects.push({name: i.name, id: i._id})
             }
             return {
                 "groups": objects

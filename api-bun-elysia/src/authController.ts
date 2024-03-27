@@ -11,6 +11,7 @@ import.meta.require
 import {Types} from "mongoose";
 import {Elysia} from "elysia";
 import ElysiaTypeOptions from "elysia/dist/index-59i0HOI0";
+import Group from "./models/Group";
 
 const gmail_user = Bun.env.GMAIL_USER
 const secret = Bun.env.JWT_SECRET;
@@ -118,17 +119,20 @@ class AuthController {
                     status: 481
                 })
             }
+
+            const group = new Group({
+                color: '#B4C4FF',
+                name: 'All',
+                icon: 'Package',
+                notes: []
+            })
             const user = new User({
                 email: candidate.email,
                 username: candidate.username,
                 password: candidate.password,
                 photo: candidate.photo,
                 roles: ['USER'],
-                groups: {
-                    color: '#B4C4FF',
-                    name: 'All',
-                    icon: 'Package'
-                }
+                groups: group
             })
             await user.save()
             await deleteUserTempById(candidate._id.toString())

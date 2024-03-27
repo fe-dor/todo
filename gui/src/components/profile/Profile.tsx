@@ -46,7 +46,7 @@ export default function Profile() {
 
     useEffect(() => {
         if (newUserPhoto != '') {
-            axios.post("http://localhost:5000/photo",
+            axios.put("http://localhost:5000/photo",
                 {
                     'photo': newUserPhoto
                 },{

@@ -29,6 +29,7 @@
   padding: 0;
   border: 0;
   background: none;
+  cursor: pointer;
 }
 
 .body {
@@ -161,6 +162,7 @@
   color: #000;
 
   text-align: center;
+  cursor: pointer;
 }
 
 .priority:hover {
@@ -171,4 +173,33 @@
 .priority:active {
   background-color: rgba(151, 71, 255, 0.3);
   color: #000;
+}
+
+.createButton {
+  margin-top: 4px;
+  margin-right: auto;
+  margin-left: auto;
+
+  border-radius: 10px;
+  padding: 10px 35px;
+  max-width: 500px;
+  width: 100%;
+  height: 39px;
+  background: #9747ff;
+  border: none;
+
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 15px;
+  color: white;
+
+  cursor: pointer;
+}
+
+.createButton:hover {
+  background-color: rgba(151, 71, 255, 0.8);
+}
+
+.createButton:active {
+  background-color: rgba(151, 71, 255, 1);
 }
